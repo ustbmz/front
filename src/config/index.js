@@ -1,6 +1,6 @@
 export default {
   basrUrl: {
     dev: 'http://localhost:3000',
-    pro: 'http://www.ustbmz.com:80',
+    pro: 'http://121.36.201.245:12005',
   },
 }
