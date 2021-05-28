@@ -8,11 +8,13 @@ WORKDIR /app
 COPY . .
 ## 构建项目  
 
-RUN npm install
+## RUN npm install
+RUN yarn install --registry https://registry.npm.taobao.org
 ## OR 
 ## yarn install --registry https://registry.npm.taobao.org
 COPY . .
 RUN npm run build
+
 ## 打包环节结束
 # production stage
 ## 发布资源
