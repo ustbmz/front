@@ -7,26 +7,6 @@
           layui 的 GitHub 及 Gitee (码云) 仓库，欢迎Star
         </a>
       </li>
-      <li>
-        <a href="/jie/5366/" target="_blank">
-          layui 常见问题的处理和实用干货集锦
-        </a>
-      </li>
-      <li>
-        <a href="/jie/4281/" target="_blank">
-          layui 的 GitHub 及 Gitee (码云) 仓库，欢迎Star
-        </a>
-      </li>
-      <li>
-        <a href="/jie/5366/" target="_blank">
-          layui 常见问题的处理和实用干货集锦
-        </a>
-      </li>
-      <li>
-        <a href="/jie/4281/" target="_blank">
-          layui 的 GitHub 及 Gitee (码云) 仓库，欢迎Star
-        </a>
-      </li>
     </ul>
   </div>
 </template>

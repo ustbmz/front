@@ -2,18 +2,21 @@
   <div class="fly-panel fly-column">
     <div class="layui-container">
       <ul class="layui-clear">
-        <li class="layui-hide-xs layui-this"><a href="/">首页</a></li>
-        <li><a href="jie/index.html">提问</a></li>
-        <li>
-          <a href="jie/index.html">
-            分享
-            <span class="layui-badge-dot"></span>
+        <router-link tag="li" to="/index" class="layui-hide-xs">
+          <a>首页</a>
+        </router-link>
+        <router-link
+          tag="li"
+          v-for="(item, index) in List"
+          :key="'panel' + index"
+          :to="item.path"
+        >
+          <a>
+            {{ item.name }}
+            <span class="layui-badge-dot" v-if="item.isNew"></span>
           </a>
-        </li>
-        <li><a href="jie/index.html">讨论</a></li>
-        <li><a href="jie/index.html">建议</a></li>
-        <li><a href="jie/index.html">公告</a></li>
-        <li><a href="jie/index.html">动态</a></li>
+        </router-link>
+
         <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block">
           <span class="fly-mid"></span>
         </li>
@@ -42,9 +45,44 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      List: [
+        {
+          name: "提问",
+          path: "/index/ask",
+          isNew: false,
+        },
+        {
+          name: "分享",
+          path: "/index/share",
+          isNew: true,
+        },
+        {
+          name: "讨论",
+          path: "/index/discuss",
+          isNew: false,
+        },
+        {
+          name: "建议",
+          path: "/index/advise",
+          isNew: false,
+        },
+        {
+          name: "公告",
+          path: "/index/notice",
+          isNew: false,
+        },
+        {
+          name: "动态",
+          path: "/index/logs",
+          isNew: false,
+        },
+      ],
+    };
+  },
+};
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>
