@@ -1,13 +1,22 @@
 <template>
   <div class="fly-panel">
     <h3 class="fly-panel-title">温馨通道</h3>
-    <ul class="fly-panel-main fly-list-static">
-      <li>
-        <a href="/jie/4281/" target="_blank">
-          layui 的 GitHub 及 Gitee (码云) 仓库，欢迎Star
-        </a>
-      </li>
-    </ul>
+    <div class="fly-panel-main layui-row">
+      <ul class="layui-clear ul-quick">
+        <li class="layui-col-xs6">
+          <a>mock test date</a>
+        </li>
+        <li class="layui-col-xs6">
+          <a>mock test date</a>
+        </li>
+        <li class="layui-col-xs6">
+          <a>mock test date</a>
+        </li>
+        <li class="layui-col-xs6">
+          <a>mock test date</a>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -18,4 +27,29 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$border-color:#f2f2f2;
+.fly-panel-main{
+  padding: 15px;
+}
+.ul-quick{
+  border: solid 1px $border-color;
+  border-bottom: none;
+  border-right: none;
+  .layui-col-xs6{
+    height: 50px;
+    line-height: 50px;
+    padding: 0 10px;
+    overflow: hidden;
+    white-space: nowrap;
+    border: 1px solid $border-color;
+    text-align: center;
+    //如果超长，显示三个点
+    text-overflow: ellipsis;
+    border-left: none;
+    border-top: none;
+    a{
+      display: block;
+    }
+  }
+}
 </style>

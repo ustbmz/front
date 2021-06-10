@@ -4,17 +4,20 @@
       <ul class="layui-nav fly-nav layui-hide-xs">
         <li class="layui-nav-item layui-this">
           <a href="/">
-            <i class="iconfont icon-jiaoliu"></i>交流
+            <i class="iconfont icon-jiaoliu"></i>
+            交流
           </a>
         </li>
         <li class="layui-nav-item">
           <a href="/">
-            <i class="iconfont icon-iconmingxinganli"></i>案例
+            <i class="iconfont icon-iconmingxinganli"></i>
+            案例
           </a>
         </li>
         <li class="layui-nav-item">
           <a href="/" target="_blank">
-            <i class="iconfont icon-ui"></i>框架
+            <i class="iconfont icon-ui"></i>
+            框架
           </a>
         </li>
       </ul>
@@ -22,13 +25,16 @@
       <ul class="layui-nav fly-nav-user">
         <!-- 未登入的状态 -->
         <li class="layui-nav-item">
-          <a class="iconfont icon-touxiang layui-hide-xs" href="../user/login.html"></a>
+          <a
+            class="iconfont icon-touxiang layui-hide-xs"
+            href="../user/login.html"
+          ></a>
         </li>
         <li class="layui-nav-item">
-          <a href="../user/login.html">登入</a>
+          <router-link to="/login"><a>登入</a></router-link>
         </li>
         <li class="layui-nav-item">
-          <a href="../user/reg.html">注册</a>
+          <router-link to="/reg"><a>注册</a></router-link>
         </li>
         <li class="layui-nav-item layui-hide-xs">
           <a
@@ -72,8 +78,8 @@
 
 <script>
 export default {
-  name: 'Header'
-}
+  name: "Header",
+};
 </script>
 
 <style lang="scss" scoped>
