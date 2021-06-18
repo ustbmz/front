@@ -145,8 +145,8 @@ export default {
       }).then((res)=>{
         if(res.code === 200){
           this.$alert('登陆成功')
-        }else if(res.code === 401){
-          this.$alert('图片验证码错误,请输入正确的验证码')
+        }else{
+          this.$alert(res.msg)
         }
       }).catch((err)=>{
         let data = err.response.data

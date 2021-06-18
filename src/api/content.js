@@ -14,7 +14,7 @@ const getTips = () => {
 }
 // 本周热议
 const getTop = () => {
-  return axios.get('/public/top')
+  return axios.get('/public/topWeek')
 }
 // 友情链接
 const getLinks = () => {

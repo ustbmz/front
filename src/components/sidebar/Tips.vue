@@ -3,8 +3,12 @@
     <h3 class="fly-panel-title">温馨通道</h3>
     <div class="fly-panel-main layui-row">
       <ul class="layui-clear ul-quick">
-        <li class="layui-col-xs6" v-for="(item,index) in lists" :key="'tips'+index">
-          <a :href="item.link" target="_blank">{{item.tilte}}</a>
+        <li
+          class="layui-col-xs6"
+          v-for="(item, index) in lists"
+          :key="'tips' + index"
+        >
+          <a :href="item.link" target="_blank">{{ item.title }}</a>
         </li>
       </ul>
     </div>
@@ -17,28 +21,11 @@ export default {
   name: "tips",
   data() {
     return {
-      lists: [
-        {
-          tilte: "github",
-          link: "https://www.github.com",
-        },
-        {
-          tilte: "imooc",
-          link: "https://www.github.com",
-        },
-        {
-          tilte: "gitee",
-          link: "https://www.gitee.com",
-        },
-        {
-          tilte: "twitter",
-          link: "https://www.github.com",
-        },
-      ],
+      lists: [],
     };
   },
   mounted() {
-    // this._getTips();
+    this._getTips();
   },
   methods: {
     _getTips() {
