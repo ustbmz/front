@@ -131,20 +131,19 @@ export default {
     $route(newval, oldval) {
       console.log("🚀 ~ file: List.vue ~ line 131 ~ $router ~ oldval", oldval);
       console.log("🚀 ~ file: List.vue ~ line 131 ~ $router ~ newval", newval);
-      this.init(newval);
+      let catalog = this.$route.params["catalog"];
+      if (typeof catalog !== "undefined" && catalog !== "") {
+        this.catalog = catalog;
+        alert(this.catalog);
+      }
+      this.init();
     },
   },
   mounted() {
-    // this._getList();
+    this.init();
   },
   methods: {
-    init(newval) {
-      if (newval) {
-        let catalog = newval.params["catalog"];
-        if (typeof catalog !== "undefined" && catalog !== "") {
-          this.catalog = catalog;
-        }
-      }
+    init() {
       this.lists = [];
       this.isEnd = false;
       this._getList();

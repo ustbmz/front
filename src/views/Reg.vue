@@ -182,7 +182,7 @@ export default {
           this.$alert("已注册成功");
           this.$router.push("/login");
         } else if (res.code === 400) {
-          this.$alert("用户名已存在");
+          this.$alert(res.msg);
         } else if (res.code === 401) {
           this.$alert("图片验证码错误,请输入正确的验证码");
         }
