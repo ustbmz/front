@@ -134,7 +134,6 @@ export default {
       let catalog = this.$route.params["catalog"];
       if (typeof catalog !== "undefined" && catalog !== "") {
         this.catalog = catalog;
-        alert(this.catalog);
       }
       this.init();
     },
