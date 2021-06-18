@@ -9,9 +9,9 @@
           </router-link>
         </li>
         <li class="layui-nav-item">
-          <a href="https://www.layui.com/doc/" target="_blank">
+          <a href="https://www.ustbmz.com" target="_blank">
             <i class="iconfont icon-ui"></i>
-            框架
+            博客
           </a>
         </li>
       </ul>
