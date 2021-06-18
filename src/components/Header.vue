@@ -1,21 +1,15 @@
 <template>
   <div class="fly-header layui-bg-black">
     <div class="layui-container">
-      <ul class="layui-nav fly-nav layui-hide-xs">
+      <ul class="layui-nav layui-hide-xs">
         <li class="layui-nav-item layui-this">
-          <a href="/">
+          <router-link :to="{name:'index'}">
             <i class="iconfont icon-jiaoliu"></i>
-            交流
-          </a>
+            首页
+          </router-link>
         </li>
         <li class="layui-nav-item">
-          <a href="/">
-            <i class="iconfont icon-iconmingxinganli"></i>
-            案例
-          </a>
-        </li>
-        <li class="layui-nav-item">
-          <a href="/" target="_blank">
+          <a href="https://www.layui.com/doc/" target="_blank">
             <i class="iconfont icon-ui"></i>
             框架
           </a>
@@ -31,10 +25,10 @@
           ></a>
         </li>
         <li class="layui-nav-item">
-          <router-link to="/login"><a>登入</a></router-link>
+          <router-link :to="{name:'login'}"><a>登入</a></router-link>
         </li>
         <li class="layui-nav-item">
-          <router-link to="/reg"><a>注册</a></router-link>
+          <router-link :to="{name:'reg'}"><a>注册</a></router-link>
         </li>
         <li class="layui-nav-item layui-hide-xs">
           <a
@@ -87,5 +81,9 @@ export default {
   left: -15px;
   top: -10px;
   margin-left: 15px;
+}
+.pdl20{
+  top: 0px;
+  padding-left: 20px;
 }
 </style>
