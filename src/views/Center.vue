@@ -61,7 +61,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/iconfont/iconfont.css";
 .customfont {
   margin-right: 10px;
 }

@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "15138288",
+      "name": "close",
+      "font_class": "close",
+      "unicode": "e7b4",
+      "unicode_decimal": 59316
+    },
+    {
       "icon_id": "1221240",
       "name": "qq",
       "font_class": "qq",

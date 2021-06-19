@@ -21,6 +21,7 @@ export default {
 @import "assets/layui/css/layui.css";
 @import "assets/css/global.css";
 @import "assets/layui/css/modules/layer/default/layer.css";
+@import "assets/iconfont/iconfont.css";
 
 @for $i from 0 to 5 {
   .pd#{$i} {
@@ -53,11 +54,17 @@ export default {
 .gray {
   color: #999;
 }
+.orange{
+  color: #ff5722;
+}
 
 .text-center {
   text-align: center;
 }
 .text-left {
   text-align: left;
+}
+.pull-right{
+  float: right !important;
 }
 </style>

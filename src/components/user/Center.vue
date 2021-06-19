@@ -103,7 +103,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../assets/iconfont/iconfont.css";
 @media screen and (max-width:768px) {
   .panel{
     &.main{

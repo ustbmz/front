@@ -2,9 +2,9 @@
   font-family: "customfont"; /* Project id 2619866 */
   /* Color fonts */
   src: 
-       url('iconfont.woff2?t=1624028882495') format('woff2'),
-       url('iconfont.woff?t=1624028882495') format('woff'),
-       url('iconfont.ttf?t=1624028882495') format('truetype');
+       url('iconfont.woff2?t=1624118342324') format('woff2'),
+       url('iconfont.woff?t=1624118342324') format('woff'),
+       url('iconfont.ttf?t=1624118342324') format('truetype');
 }
 
 .customfont {
@@ -13,6 +13,10 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-close:before {
+  content: "\e7b4";
 }
 
 .icon-qq:before {
