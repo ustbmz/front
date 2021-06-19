@@ -26,7 +26,7 @@ class HttpRequest {
     instance.interceptors.request.use(
       (config) => {
         // Do something before request is sent
-        console.log(config)
+        console.log('axios 发出请求报文:',config)
         return config
       },
       (err) => {

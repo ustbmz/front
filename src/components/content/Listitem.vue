@@ -33,14 +33,13 @@
             {{ item.answer }}
           </span>
         </div>
-        <div class="fly-list-badge" v-show="item.tags.length > 0">
+        <div class="fly-list-badge" v-show="item.tags.length > 0 && item.tags[0].name !== ''">
           <span
-            class="layui-badge layui-bg-red"
-            v-for="(item, index) in item.tag"
+            class="layui-badge"
+            v-for="(tag, index) in item.tags"
             :key="'tag' + index"
-          >
-            {item}
-          </span>
+            :class="tag.class"
+          >{{tag.name}}</span>
         </div>
       </li>
     </ul>

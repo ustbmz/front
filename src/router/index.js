@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import store from '@/store/index'
+import jwt from 'jsonwebtoken'
+import moment from 'dayjs'
 
 import CenterChildRouter from './center'
 const Home = () => import(/* webpackChunkName: 'login' */ '../views/Home.vue')
@@ -22,6 +24,11 @@ const router = new Router({
       children: [
         {
           path: '/',
+          name: 'index',
+          component: Index
+        },
+        {
+          path: '/index',
           name: 'index',
           component: Index
         },
@@ -73,9 +80,15 @@ router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('token')
   const userInfo = JSON.parse(localStorage.getItem('userInfo'))
   if (token !== '' && token !== 'undefined') {
-    store.commit('setUserInfo', userInfo)
-    store.commit('setIsLogin', true)
-    store.commit('setToken', token)
+    const payload = jwt.decode(token)
+    console.log('token isnot timeout : ', moment().isBefore(moment(payload.exp * 1000)));
+    if (moment().isBefore(moment(payload.exp * 1000))) {
+      store.commit('setUserInfo', userInfo)
+      store.commit('setIsLogin', true)
+      store.commit('setToken', token)
+    } else {
+      localStorage.clear()
+    }
   }
   if (to.matched.some(record => record.meta.requiresAuth)) {
     const islogin = store.state.isLogin

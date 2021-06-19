@@ -21,7 +21,6 @@ export default [
 
   {
     path: 'setting',
-    name: 'setting',
     component: UserSetting,
     children: [
       {
@@ -48,7 +47,6 @@ export default [
   },
   {
     path: 'post',
-    name: 'post',
     component: UserPost,
     children: [
       {

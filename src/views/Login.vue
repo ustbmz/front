@@ -157,6 +157,7 @@ export default {
           }
         })
         .catch((err) => {
+          console.log('🚀 ~ file: Login.vue ~ line 160 ~ submit ~ err', err)
           let data = err.response.data;
           if (data.code === 500) {
             this.$alert("用户名密码校验失败，请重试");

@@ -148,7 +148,6 @@ export default {
       this._getList();
     },
     _getList() {
-      console.log("get page list data");
       let options = {
         catalog: this.catalog,
         isTop: 0,
@@ -160,7 +159,6 @@ export default {
       };
       getList(options)
         .then((res) => {
-          console.log(res);
           if (res.code === 200) {
             if (res.data.length < 20) {
               this.isEnd = true;

@@ -11,12 +11,14 @@
         去签到
       </a>
     </div>
-    <list-item :lists="lists"></list-item>
+    <list-item :lists="lists" :isShow="false" :isEnd="isEnd"></list-item>
   </div>
 </template>
 
 <script>
 import ListItem from "./Listitem.vue";
+import { getList } from "@/api/content";
+
 export default {
   name: "topList",
   components: {
@@ -24,41 +26,47 @@ export default {
   },
   data() {
     return {
+      catalog: "",
+      isEnd:true,
       status: "",
       tag: "",
       sort: "",
       page: 0,
       limit: 20,
-      lists: [
-        {
-          uid: {
-            name: "测试用户",
-            isVip: 1,
-          },
-          title: "大前端课程",
-          content: "",
-          created: "2020-20-20",
-          fav: 40,
-          reads: 10,
-          catelog: "ask",
-          isEnd: 0,
-          answer: "0",
-          status: 0,
-          sort: 0,
-          isTop: 0,
-          tags: [
-            {
-              name: "精华",
-              class: "layui-bg-red",
-            },
-            {
-              name: "热门",
-              class: "layui-bg-blue",
-            },
-          ],
-        },
-      ],
+      lists: [],
     };
+  },
+  mounted(){
+    this._getList()
+  },
+  methods: {
+    _getList() {
+      let options = {
+        catalog: this.catalog,
+        isTop: 1,
+        page: this.page,
+        limit: this.limit,
+        sort: this.sort,
+        tag: this.tag,
+        status: this.status,
+      };
+      getList(options)
+        .then((res) => {
+          if (res.code === 200) {
+            if (res.data.length < 20) {
+              this.isEnd = true;
+            }
+            if (this.lists.length == 0) {
+              this.lists = res.data;
+            } else {
+              this.lists = this.lists.concat(res.data);
+            }
+          }
+        })
+        .catch((err) => {
+          this.$alert(err.message);
+        });
+    },
   },
 };
 </script>
