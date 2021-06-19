@@ -15,6 +15,7 @@ export default new Vuex.Store({
       state.sid = value
     },
     setToken (state, value) {
+      if (value === '') return
       state.token = value
       localStorage.setItem('token', value)
     },
