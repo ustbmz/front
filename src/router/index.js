@@ -79,7 +79,6 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('token')
   const userInfo = JSON.parse(localStorage.getItem('userInfo'))
-  alert(token)
   if (token !== '' && token !== 'undefined' && token !== null) {
     const payload = jwt.decode(token)
     console.log('token isnot timeout : ', moment().isBefore(moment(payload.exp * 1000)));
