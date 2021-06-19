@@ -60,22 +60,24 @@
               </i>
               <img :src="user.pic" />
             </a>
-            <dl class="layui-nav-child layui-anim layui-anim-downbit" 
-                :class="{'layui-show':isHover}">
+            <dl
+              class="layui-nav-child layui-anim layui-anim-downbit"
+              :class="{ 'layui-show': isHover }"
+            >
               <dd>
-                <a href="user/set.html">
+                <router-link :to="{ name: 'center' }">
                   <i class="layui-icon">&#xe620;</i>
                   基本设置
-                </a>
+                </router-link>
               </dd>
               <dd>
-                <a href="user/message.html">
+                <router-link :to="{ name: 'msg' }">
                   <i class="iconfont icon-tongzhi" style="top: 4px"></i>
                   我的消息
-                </a>
+                </router-link>
               </dd>
               <dd>
-                <a href="user/home.html">
+                <router-link :to="{ name: 'home' }">
                   <i
                     class="layui-icon"
                     style="margin-left: 2px; font-size: 22px"
@@ -83,11 +85,17 @@
                     &#xe68e;
                   </i>
                   我的主页
-                </a>
+                </router-link>
               </dd>
               <hr style="margin: 5px 0" />
               <dd>
-                <a href="/user/logout/" style="text-align: center">退出</a>
+                <a
+                  href="javascript:void(0)"
+                  @click="quit()"
+                  style="text-align: center"
+                >
+                  退出
+                </a>
               </dd>
             </dl>
           </li>
@@ -100,34 +108,43 @@
 <script>
 export default {
   name: "Header",
-  data () {
+  data() {
     return {
-      isHover:false,
-      hoverContral:''
-    }
+      isHover: false,
+      hoverContral: "",
+    };
   },
   computed: {
     isShow: function () {
-      return this.$store.state.islogin;
+      return this.$store.state.isLogin;
     },
     user: function () {
-      return this.$store.state.userinfo;
+      return this.$store.state.userInfo;
     },
   },
   methods: {
-    show(){
-      clearTimeout(this.hoverContral)
-      this.hoverContral = setTimeout(()=>{
-        this.isHover = true
-      },200)
+    show() {
+      clearTimeout(this.hoverContral);
+      this.hoverContral = setTimeout(() => {
+        this.isHover = true;
+      }, 200);
     },
-    hide(){
-      clearTimeout(this.hoverContral)
-       this.hoverContral = setTimeout(()=>{
-        this.isHover = false
-      },300)
-    }
-  }
+    hide() {
+      clearTimeout(this.hoverContral);
+      this.hoverContral = setTimeout(() => {
+        this.isHover = false;
+      }, 300);
+    },
+    quit() {
+      this.$confirm("是否退出当前用户?", () => {
+        localStorage.clear();
+        this.$store.commit("setUserInfo", "");
+        this.$store.commit("setIsLogin", false);
+        this.$store.commit("setToken", "");
+        this.$router.push('/')
+      },()=>{});
+    },
+  },
 };
 </script>
 

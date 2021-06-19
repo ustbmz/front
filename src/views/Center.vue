@@ -42,7 +42,7 @@ export default {
         {
           name: "我的帖子",
           icon: "icon-document",
-          link: "post",
+          link: "userpost",
         },
         {
           name: "我的消息",

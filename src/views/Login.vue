@@ -148,6 +148,8 @@ export default {
           if (res.code === 200) {
             this.$store.commit("setUserInfo", res.data);
             this.$store.commit("setIsLogin", true);
+            this.$store.commit("setToken", res.token);
+            localStorage.setItem('isLogin',true)
             this.$router.push({ name: "index" });
             this.$alert("登陆成功");
           } else {

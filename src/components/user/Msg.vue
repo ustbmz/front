@@ -1,16 +1,6 @@
 <template>
-  <div class="fly-panel fly-panel-user layui-show" pad20>
-    <div
-      class="layui-tab layui-tab-brief "
-      lay-filter="user"
-      id="LAY_msg"
-      style="margin-top: 15px"
-    >
-      <button class="layui-btn layui-btn-danger layui-hide" id="LAY_delallmsg">
-        清空全部消息
-      </button>
-      <div id="LAY_minemsg" style="margin-top: 10px"></div>
-    </div>
+  <div class="flex fly-panel fly-panel-user" pad20>
+    正在开发中...
   </div>
 </template>
 
@@ -21,4 +11,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.flex{
+  display: flex;
+  font-size: 20px;
+  color: #333;
+  align-items: center;
+  justify-content: center;
+}
 </style>

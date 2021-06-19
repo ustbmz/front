@@ -1,5 +1,5 @@
 <template>
-  <div class="fly-panel fly-panel-user" pad20>
+  <div class="fly-panel fly-panel-user " pad20>
     <div class="layui-tab layui-tab-brief" lay-filter="userinfo">
       <ul class="layui-tab-title" id="LAY_mine">
         <li>
