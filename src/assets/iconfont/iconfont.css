@@ -1,0 +1,53 @@
+@font-face {
+  font-family: "customfont"; /* Project id 2619866 */
+  /* Color fonts */
+  src: 
+       url('iconfont.woff2?t=1624028882495') format('woff2'),
+       url('iconfont.woff?t=1624028882495') format('woff'),
+       url('iconfont.ttf?t=1624028882495') format('truetype');
+}
+
+.customfont {
+  font-family: "customfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-qq:before {
+  content: "\e608";
+}
+
+.icon-weibo:before {
+  content: "\e600";
+}
+
+.icon-blogger:before {
+  content: "\e63b";
+}
+
+.icon-user:before {
+  content: "\e60c";
+}
+
+.icon-Other:before {
+  content: "\e67f";
+}
+
+.icon-document:before {
+  content: "\e7a3";
+}
+
+.icon-home:before {
+  content: "\e64c";
+}
+
+.icon-Message:before {
+  content: "\e774";
+}
+
+.icon-Setting:before {
+  content: "\e6ab";
+}
+

@@ -44,9 +44,9 @@
                 </div>
                 <div class="layui-form-item">
                   <div class="layui-row">
-                    <label for="L_vercode" class="layui-form-label"
-                      >验证码</label
-                    >
+                    <label for="L_vercode" class="layui-form-label">
+                      验证码
+                    </label>
                     <div class="layui-input-inline">
                       <input
                         type="text"
@@ -68,11 +68,13 @@
                   </div>
                 </div>
                 <div class="layui-form-item">
-                  <button class="layui-btn" type="button" @click="submit()">立即登录</button>
+                  <button class="layui-btn" type="button" @click="submit()">
+                    立即登录
+                  </button>
                   <span style="padding-left: 20px">
-                    <router-link :to="{ name: 'forget' }"
-                      >忘记密码？</router-link
-                    >
+                    <router-link :to="{ name: 'forget' }">
+                      忘记密码？
+                    </router-link>
                   </span>
                 </div>
                 <div class="layui-form-item fly-form-app">
@@ -100,65 +102,69 @@
 </template>
 
 <script>
-import { getCode ,login} from '@/api/login'
-import { v4 as uuidv4 } from 'uuid';
+import { getCode, login } from "@/api/login";
+import { v4 as uuidv4 } from "uuid";
 
 export default {
-  name: 'login',
-  components:{
-  },
-  data () {
+  name: "login",
+  components: {},
+  data() {
     return {
-      username: '',
-      password: '',
-      code: '',
-      svg: '',
-    }
+      username: "",
+      password: "",
+      code: "",
+      svg: "",
+    };
   },
-  mounted () {
+  mounted() {
     console.log("login mounted");
-    let sid = ''
-    if(localStorage.getItem('sid')){
-      sid = localStorage.getItem('sid')
-    }else{
-      sid = uuidv4()
-      localStorage.setItem('sid',sid)
+    let sid = "";
+    if (localStorage.getItem("sid")) {
+      sid = localStorage.getItem("sid");
+    } else {
+      sid = uuidv4();
+      localStorage.setItem("sid", sid);
     }
-    this.$store.commit('setSid', sid)
-    this._getCode()
+    this.$store.commit("setSid", sid);
+    this._getCode();
   },
   methods: {
-    _getCode () {
-      let sid = localStorage.getItem('sid')
+    _getCode() {
+      let sid = localStorage.getItem("sid");
       getCode(sid).then((res) => {
         if (res.code === 200) {
-          this.svg = res.data
+          this.svg = res.data;
         }
-      })
+      });
     },
-    submit(){
+    submit() {
       login({
-        username:this.username,
-        password:this.password,
-        code:this.code,
-        sid:this.$store.state.sid
-      }).then((res)=>{
-        if(res.code === 200){
-          this.$alert('登陆成功')
-        }else{
-          this.$alert(res.msg)
-        }
-      }).catch((err)=>{
-        let data = err.response.data
-        if(data.code === 500){
-          this.$alert('用户名密码校验失败，请重试')
-        }else{
-          this.$alert('服务器错误')
-        }
+        username: this.username,
+        password: this.password,
+        code: this.code,
+        sid: this.$store.state.sid,
       })
-    }
-  }
-}
+        .then((res) => {
+          if (res.code === 200) {
+            this.$store.commit("setUserInfo", res.data);
+            this.$store.commit("setIsLogin", true);
+            this.$router.push({ name: "index" });
+            this.$alert("登陆成功");
+          } else {
+            this.$alert(res.msg);
+          }
+        })
+        .catch((err) => {
+          let data = err.response.data;
+          if (data.code === 500) {
+            this.$alert("用户名密码校验失败，请重试");
+          } else {
+            this.$alert("服务器错误");
+          }
+        });
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
