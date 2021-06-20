@@ -72,7 +72,6 @@ export default {
       type: Boolean,
     },
   },
-  mounted() {},
   computed: {
     items() {
       _.map(this.lists, (item) => {

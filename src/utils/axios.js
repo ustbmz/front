@@ -2,13 +2,12 @@
 // 进行异常处理
 import axios from 'axios'
 import errorHandle from './errorHandle'
-
 class HttpRequest {
   constructor(baseUrl) {
     this.baseUrl = baseUrl
   }
   // 获取配置
-  getInsideConfig() {
+  getInsideConfig () {
     const config = {
       baseURL: this.baseUrl,
       headers: {
@@ -20,13 +19,13 @@ class HttpRequest {
   }
 
   // 设置拦截器
-  interceptors(instance) {
+  interceptors (instance) {
     // Add a request interceptor
     // 发送请求拦截
     instance.interceptors.request.use(
       (config) => {
         // Do something before request is sent
-        console.log('axios 发出请求报文:',config)
+        console.log('axios 发出请求报文:', config)
         return config
       },
       (err) => {
@@ -59,7 +58,7 @@ class HttpRequest {
   }
 
   // 创建实例
-  request(options) {
+  request (options) {
     const instance = axios.create()
     //Object.assign() 方法用于将所有可枚举属性的值从一个或多个源对象分配到目标对象。它将返回目标对象。
     const newOptions = Object.assign(this.getInsideConfig(), options)
@@ -71,7 +70,7 @@ class HttpRequest {
   get (url, config) {
     const options = Object.assign({
       method: "get",
-      url:url
+      url: url
     }, config)
     return this.request(options)
   }
@@ -81,13 +80,13 @@ class HttpRequest {
       {
         method: 'post',
         url: url,
-        data:data
+        data: data
       },
       config
     )
     return this.request(options)
   }
-  
+
 
 }
 

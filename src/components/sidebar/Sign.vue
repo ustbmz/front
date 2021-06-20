@@ -1,6 +1,6 @@
 <template>
   <div class="fly-panel fly-signin">
-    <div class="fly-panel-title">
+    <div class="fly-panel-title" >
       签到
       <i class="fly-mid"></i>
       <a
@@ -23,161 +23,79 @@
       </a>
       <span class="fly-signin-days">
         已连续签到
-        <cite>16</cite>
+        <cite>{{ count }}</cite>
         天
       </span>
     </div>
     <div class="fly-panel-main fly-signin-main">
-      <button class="layui-btn layui-btn-danger" id="LAY_signin">
-        今日签到
-      </button>
-      <span>
-        可获得
-        <cite>5</cite>
-        飞吻
-      </span>
-
-      <!-- 已签到状态 -->
-      <!--
-          <button class="layui-btn layui-btn-disabled">今日已签到</button>
-          <span>获得了<cite>20</cite>飞吻</span>
-          -->
+      <template v-if="!isSign">
+        <button class="layui-btn layui-btn-danger" id="LAY_signin" @click="sign()">
+          今日签到
+        </button>
+        <span>
+          可获得
+          <cite>{{ favs }}</cite>
+          飞吻
+        </span>
+      </template>
+      <template v-else>
+        <!-- 已签到状态 -->
+        <button class="layui-btn layui-btn-disabled">今日已签到</button>
+        <span>
+          获得了
+          <cite>{{favs}}</cite>
+          飞吻
+        </span>
+      </template>
     </div>
-    <div class="model" v-show="showDes">
-      <div class="mask" @click="close()"></div>
-      <div
-        class="layui-layer layui-layer-page info"
-        :class="{ active: showDes }"
-      >
-        <div class="layui-layui-title pl2 pr2">
-          签到说明
-          <i class="customfont icon-close pull-right" @click="close()"></i>
-        </div>
-        <div class="layui-layer-content pd2">
-          <div class="layui-text">
-            <blockquote class="layui-elem-quote">
-              "签到"可获得社区积分，规则如下
-            </blockquote>
-            <div class="layui-table">
-              <thead>
-                <tr>
-                  <th>&nbsp; 连续签到天数</th>
-                  <th>&nbsp; 每天可获积分</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>&lt;5</td>
-                  <td>5</td>
-                </tr>
-                <tr>
-                  <td>&ge;5</td>
-                  <td>10</td>
-                </tr>
-                <tr>
-                  <td>&ge;15</td>
-                  <td>15</td>
-                </tr>
-                <tr>
-                  <td>&ge;30</td>
-                  <td>20</td>
-                </tr>
-                <tr>
-                  <td>&ge;100</td>
-                  <td>30</td>
-                </tr>
-                <tr>
-                  <td>&ge;365</td>
-                  <td>50</td>
-                </tr>
-              </tbody>
-              <div>
-                <p>中间若有间隔，则连续天数重新计算</p>
-                <p class="orange">不可复用程序自动签到，否则积分自动清零</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="model" v-show="showTop">
-      <div class="mask" @click="close()"></div>
-      <div
-        class="layui-layer layui-layer-page info"
-        :class="{ active: showDes }"
-      >
-        <div class="layui-layui-title pl2 pr2">
-          签到活跃榜 -- TOP 10
-          <i class="customfont icon-close pull-right" @click="close()"></i>
-        </div>
-        <div class="layui-layer-content pd0">
-          <div class="layui-text">
-            <div class="layui-tab layui-tab-berif">
-              <div class="layui-tab-title">
-                <li :class="{'layui-this':current===0}" @click="choose(0)">最新签到</li>
-                <li :class="{'layui-this':current===1}" @click="choose(1)">今日最快</li>
-                <li :class="{'layui-this':current===2}" @click="choose(2)">总签到榜</li>
-              </div>
-              <div class="layui-tab-content">
-                <ul class="layui-tab-item layui-show">
-                  <li v-for="(item, index) in lists" :key="'signli' + index">
-                    <img src="../../assets/images/avatar/0.jpg" />
-                    <cite>{{ item.name }}</cite>
-                    <span class="fly-gray" v-if="current !== 2">
-                      签到于  
-                      <i class="orange">{{item.created}}</i>
-                    </span>
-                    <span class="fly-gray" v-else>
-                      已经连续签到
-                      <i class="orange">{{ item.count }}</i>
-                    </span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <!-- 父组件 sync用法  -->
+    <!-- 字组件不需要提交关闭事件让父组件取改变isShow的状态  -->
+    <sign-info :isShow.sync="showDes"></sign-info>
+    <sign-list :isShow.sync="showTop"></sign-list>
   </div>
 </template>
 
 <script>
+import SignInfo from "./signContent/signInfo.vue";
+import SignList from "./signContent/SignList.vue";
+import { userSign } from "@/api/user";
 export default {
   name: "sign",
+  components: {
+    SignInfo,
+    SignList,
+  },
   data() {
     return {
+      isLogin:this.$store.state.isLogin ? this.$store.state.isLogin :false ,
       showDes: false,
       showTop: false,
-      current:0,
-      lists: [
-        {
-          name: "测试用户1",
-          created:'2020-12-21',
-          count: 4,
-        },
-        {
-          name: "测试用户2",
-          created:'2020-12-21',
-          count: 3,
-        },
-        {
-          name: "测试用户3",
-          created:'2020-12-21',
-          count: 77,
-        },
-        {
-          name: "测试用户4",
-          created:'2020-12-21',
-          count: 66,
-        },
-        {
-          name: "测试用户5",
-          created:'2020-12-21',
-          count: 88,
-        },
-      ],
+      isSign: this.$store.state.userInfo.isSign ? this.$store.state.userInfo.isSign :false ,
+      count:this.$store.state.userInfo.count ? this.$store.state.userInfo.count :0
     };
+  },
+  computed: {
+    favs() {
+      let fav = 0;
+      let count = parseInt(this.count)
+
+      if (this.$store.state.userinfo !== {}) {
+        if (count <= 5) {
+          fav = 5;
+        } else if (count > 5 && count <= 15) {
+          fav = 10;
+        } else if (count > 15 && count <= 30) {
+          fav = 15;
+        } else if (count > 30 && count <= 100) {
+          fav = 20;
+        } else if (count > 100 && count <= 365) {
+          fav = 50;
+        }
+        return fav;
+      } else {
+        return fav;
+      }
+    },
   },
   methods: {
     showInfo(val) {
@@ -187,18 +105,31 @@ export default {
         this.showDes = true;
       }
     },
-    close() {
-      this.showDes = false;
-      this.showTop = false;
+    sign() {
+      let userInfo = this.$store.state.userInfo
+      if(!this.isLogin){
+          this.$pop('shake','请先登陆')
+          return
+      }
+      userSign().then((res) => {
+        if (res.code === 200) {
+          this.fav = res.favs
+          this.count = res.count
+          userInfo.isSign = true
+          this.$store.commit('setUserInfo',userInfo)
+          this.$pop('','签到成功')
+          this.isSign = true
+        }else{
+          this.isSign = false
+          this.$pop('','用户已签到')
+        }
+      });
     },
-    choose(val){
-      this.current = val
-    }
   },
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @keyframes bounceIn {
   0% {
     opacity: 0;
@@ -247,9 +178,9 @@ export default {
 }
 .layui-tab-item {
   line-height: 40px;
-  li{
+  li {
     border-bottom: 1px solid dotted #dcdcdc;
-    &:last-child{
+    &:last-child {
       border-bottom: none;
     }
   }

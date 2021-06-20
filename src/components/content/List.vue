@@ -41,7 +41,7 @@
     <list-item
       :lists="lists"
       @nextpage="nextPage()"
-      :isShow="true"
+      :isShow="isShow"
       :isEnd="isEnd"
     ></list-item>
   </div>
@@ -59,6 +59,7 @@ export default {
     return {
       catalog: "",
       isEnd: false,
+      isShow: true,
       current: "",
       status: "",
       tag: "",
