@@ -14,6 +14,8 @@ const Center = () => import(/* webpackChunkName: 'center' */ '../views/Center.vu
 const Template1 = () => import(/* webpackChunkName: 'template1' */ '../views/channels/template1.vue')
 const UserHome = () => import(/* webpackChunkName: 'home' */ '../views/User.vue')
 Vue.use(Router)
+const notFound = () => import(/* webpackChunkName: 'notfound' */ '../views/404.vue')
+Vue.use(Router)
 
 const router = new Router({
   linkExactActiveClass: 'layui-this',
@@ -71,6 +73,14 @@ const router = new Router({
       component: Center,
       linkActiveClass: 'layui-this',
       children: CenterChildRouter
+    },
+    {
+      path: "/404",
+      component:notFound
+    },
+    {
+      path: '*',
+      redirect: '/404'
     }
   ],
 })

@@ -20,10 +20,10 @@
         <!-- 未登入的状态 -->
         <template v-if="!isShow">
           <li class="layui-nav-item">
-            <a
+            <router-link
               class="iconfont icon-touxiang layui-hide-xs"
-              href="../user/login.html"
-            ></a>
+              to="../user/login.html"
+            ></router-link>
           </li>
           <li class="layui-nav-item">
             <router-link :to="{ name: 'login' }"><a>登入</a></router-link>
@@ -32,20 +32,20 @@
             <router-link :to="{ name: 'reg' }"><a>注册</a></router-link>
           </li>
           <li class="layui-nav-item layui-hide-xs">
-            <a
-              href
+            <router-link
+               to='/goQQ'
               onclick="layer.msg('正在通过QQ登入', {icon:16, shade: 0.1, time:0})"
               title="QQ登入"
               class="iconfont icon-qq"
-            ></a>
+            ></router-link>
           </li>
           <li class="layui-nav-item layui-hide-xs">
-            <a
-              href
+            <router-link
+              to='/goWb'
               onclick="layer.msg('正在通过微博登入', {icon:16, shade: 0.1, time:0})"
               title="微博登入"
               class="iconfont icon-weibo"
-            ></a>
+            ></router-link>
           </li>
         </template>
         <template v-else>
@@ -136,13 +136,21 @@ export default {
       }, 300);
     },
     quit() {
-      this.$confirm("是否退出当前用户?", () => {
-        localStorage.clear();
-        this.$store.commit("setUserInfo", "");
-        this.$store.commit("setIsLogin", false);
-        this.$store.commit("setToken", "");
-        this.$router.push('/')
-      },()=>{});
+      this.$confirm(
+        "是否退出当前用户?",
+        () => {
+          // confirm 执行
+          localStorage.clear();
+          this.$store.commit("setUserInfo", "");
+          this.$store.commit("setIsLogin", false);
+          this.$store.commit("setToken", "");
+          // 忽略重复路由
+          this.$router.push("/", () => {});
+        },
+        () => {
+          // cancel 执行
+        }
+      );
     },
   },
 };

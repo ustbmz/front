@@ -2,6 +2,8 @@
 // 进行异常处理
 import axios from 'axios'
 import errorHandle from './errorHandle'
+import store from '@/store/index'
+
 class HttpRequest {
   constructor(baseUrl) {
     this.baseUrl = baseUrl
@@ -24,6 +26,10 @@ class HttpRequest {
     // 发送请求拦截
     instance.interceptors.request.use(
       (config) => {
+        const token = store.state.token
+        if (token) {
+          config.headers.Authorization ='Bearer '+ token
+        }
         // Do something before request is sent
         console.log('axios 发出请求报文:', config)
         return config
@@ -86,8 +92,6 @@ class HttpRequest {
     )
     return this.request(options)
   }
-
-
 }
 
 export default HttpRequest

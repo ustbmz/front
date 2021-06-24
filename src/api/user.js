@@ -1,15 +1,15 @@
 import axios from '@/utils/request'
-import store from '@/store/index'
 
 const userSign = async () => {
-  const headers = {
-    Authorization: 'Bearer '+store.state.token
-  }
-  return axios.get('/user/fav', {
-    headers
+  return axios.get('/user/fav')
+}
+const updateUserInfo = async (data) => {
+  return axios.post('/user/basic', {
+    ...data,
   })
 }
 
 export {
-  userSign
+  userSign,
+  updateUserInfo
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="fly-panel fly-signin">
-    <div class="fly-panel-title" >
+    <div class="fly-panel-title">
       签到
       <i class="fly-mid"></i>
       <a
@@ -21,7 +21,7 @@
         活跃榜
         <span class="layui-badge-dot"></span>
       </a>
-      <span class="fly-signin-days">
+      <span class="fly-signin-days" v-show="isSign || isLogin">
         已连续签到
         <cite>{{ count }}</cite>
         天
@@ -29,7 +29,11 @@
     </div>
     <div class="fly-panel-main fly-signin-main">
       <template v-if="!isSign">
-        <button class="layui-btn layui-btn-danger" id="LAY_signin" @click="sign()">
+        <button
+          class="layui-btn layui-btn-danger"
+          id="LAY_signin"
+          @click="sign()"
+        >
           今日签到
         </button>
         <span>
@@ -40,10 +44,10 @@
       </template>
       <template v-else>
         <!-- 已签到状态 -->
-        <button class="layui-btn layui-btn-disabled">今日已签到</button>
+        <button class="layui-btn layui-btn-disabled">{{ nextSignTime }}</button>
         <span>
           获得了
-          <cite>{{favs}}</cite>
+          <cite>{{ favs }}</cite>
           飞吻
         </span>
       </template>
@@ -59,6 +63,9 @@
 import SignInfo from "./signContent/signInfo.vue";
 import SignList from "./signContent/SignList.vue";
 import { userSign } from "@/api/user";
+import moment from "dayjs";
+var isSameOrBefore = require("dayjs/plugin/isSameOrBefore");
+moment.extend(isSameOrBefore);
 export default {
   name: "sign",
   components: {
@@ -67,17 +74,49 @@ export default {
   },
   data() {
     return {
-      isLogin:this.$store.state.isLogin ? this.$store.state.isLogin :false ,
       showDes: false,
       showTop: false,
-      isSign: this.$store.state.userInfo.isSign ? this.$store.state.userInfo.isSign :false ,
-      count:this.$store.state.userInfo.count ? this.$store.state.userInfo.count :0
+      isSign: false,
+      resetTime: "",
+      nextSignTime: "今日已签到",
+      leftSeconds: 0,
+      count: this.$store.state.userInfo.count
+        ? this.$store.state.userInfo.count
+        : 0,
     };
   },
+  mounted() {
+    const userInfo = this.$store.state.userInfo;
+    console.log(moment(userInfo.lastSign).format("YYYY-MM-DD"));
+    console.log(moment().format("YYYY-MM-DD"));
+    if (userInfo.length > 0) {
+      this.isSign = moment(userInfo.lastSign).isSameOrBefore(moment());
+    }
+    // const endTime = moment().format("YYYY-MM-DD 23:59:59");
+    // var now = new Date();
+    // var until = new Date(endTime);
+    // this.leftSeconds = (until - now) ;
+    // console.log('🚀 ~ file: Sign.vue ~ line 99 ~ mounted ~ leftSeconds', this.leftSeconds)
+    // this.getCode(this.leftSeconds)
+  },
+  watch: {
+    leftSeconds(newval, oldval) {
+      if (this.isSign) {
+        console.log(
+          "🚀 ~ file: Sign.vue ~ line 109 ~ leftSeconds ~ oldval",
+          oldval
+        );
+        this.nextSignTime = moment(newval).format("HH:mm:ss");
+      }
+    },
+  },
   computed: {
+    isLogin() {
+      return this.$store.state.isLogin ? this.$store.state.isLogin : false;
+    },
     favs() {
       let fav = 0;
-      let count = parseInt(this.count)
+      let count = parseInt(this.count);
 
       if (this.$store.state.userinfo !== {}) {
         if (count <= 5) {
@@ -98,6 +137,16 @@ export default {
     },
   },
   methods: {
+    getCode(val) {
+      console.log("getCode");
+      this.timer = setInterval(() => {
+        this.leftSeconds--;
+        if (val === 0) {
+          this.isSign = false;
+          clearInterval(this.timer);
+        }
+      }, 1000);
+    },
     showInfo(val) {
       if (val) {
         this.showTop = true;
@@ -106,23 +155,24 @@ export default {
       }
     },
     sign() {
-      let userInfo = this.$store.state.userInfo
-      if(!this.isLogin){
-          this.$pop('shake','请先登陆')
-          return
+      let userInfo = this.$store.state.userInfo;
+      if (!this.isLogin) {
+        this.$pop("shake", "请先登陆");
+        return;
       }
       userSign().then((res) => {
         if (res.code === 200) {
-          this.fav = res.favs
-          this.count = res.count
-          userInfo.isSign = true
-          this.$store.commit('setUserInfo',userInfo)
-          this.$pop('','签到成功')
-          this.isSign = true
-        }else{
-          this.isSign = false
-          this.$pop('','用户已签到')
+          this.fav = res.favs;
+          this.count = res.count;
+          this.$pop("", "签到成功");
+          this.isSign = true;
+        } else {
+          this.isSign = false;
+          this.$pop("", "用户已签到");
         }
+        userInfo.isSign = true;
+        userInfo.lastSign = res.lastSign;
+        this.$store.commit("setUserInfo", userInfo);
       });
     },
   },
