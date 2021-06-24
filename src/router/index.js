@@ -15,6 +15,8 @@ const Template1 = () => import(/* webpackChunkName: 'template1' */ '../views/cha
 const UserHome = () => import(/* webpackChunkName: 'home' */ '../views/User.vue')
 Vue.use(Router)
 const notFound = () => import(/* webpackChunkName: 'notfound' */ '../views/404.vue')
+const Confrim = () => import(/* webpackChunkName: 'notfound' */ '../views/Confirm.vue')
+const Reset = () => import(/* webpackChunkName: 'notfound' */ '../views/Reset.vue')
 Vue.use(Router)
 
 const router = new Router({
@@ -73,6 +75,16 @@ const router = new Router({
       component: Center,
       linkActiveClass: 'layui-this',
       children: CenterChildRouter
+    },
+    {
+      path: '/confirm',
+      name: 'confirm',
+      component: Confrim,
+    },
+    {
+      path: '/reset',
+      name: 'reset',
+      component: Reset,
     },
     {
       path: "/404",

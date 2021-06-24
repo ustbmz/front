@@ -44,7 +44,7 @@
       <div class="layui-input-inline">
         <input
           type="text"
-          v-model="localzion"
+          v-model="localtion"
           autocomplete="off"
           class="layui-input"
         />
@@ -76,15 +76,15 @@ export default {
     return {
       username: '',
       name: '',
-      localzion: '',
+      localtion: '',
       regmark: '',
     };
   },
   mounted() {
-    const { username, name, localzion, regmark } = store.state.userInfo;
+    const { username, name, localtion, regmark } = store.state.userInfo;
     this.username = username;
     this.name = name;
-    this.localzion = localzion;
+    this.localtion = localtion;
     this.regmark = regmark;
   },
   methods: {
@@ -93,13 +93,22 @@ export default {
         updateUserInfo({
           username: this.username,
           name: this.name,
-          localzion: this.localzion,
+          localtion: this.localtion,
           regmark: this.regmark,
         }).then((res) => {
           if (res.code === 200) {
-            alert('数据更新成功');
+            this.$store.commit('setUserInfo', {
+              ...this.$store.state.userInfo,
+              ...{
+                username: this.username,
+                name: this.name,
+                localtion: this.localtion,
+                regmark: this.regmark,
+              },
+            });
+            this.$alert('数据更新成功');
           } else {
-            alert('数据更新失败');
+            this.$alert('数据更新失败');
           }
         });
       }

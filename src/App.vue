@@ -33,6 +33,12 @@ export default {
   .pr#{$i} {
     padding-right: $i * 10 + px;
   }
+  .pt#{$i} {
+    padding-top: $i * 10 + px;
+  }
+  .pb#{$i} {
+    padding-bottom: $i * 10 + px;
+  }
   .mt#{$i} {
     margin-top: $i * 10 + px;
   }
