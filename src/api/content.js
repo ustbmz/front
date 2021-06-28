@@ -21,6 +21,11 @@ const getLinks = () => {
   return axios.get('/public/links')
 }
 
+// 上传图片
+const uploadImg = (pic) => {
+  console.log('🚀 ~ file: content.js ~ line 26 ~ uploadImg ~ pic', pic)
+  return axios.post('/content/upload', pic)
+}
 
 
-export { getList, getTips, getTop, getLinks }
+export { getList, getTips, getTop, getLinks, uploadImg }
