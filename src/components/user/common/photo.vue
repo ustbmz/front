@@ -14,7 +14,7 @@
         @change="upload"
         style="display: none"
       />
-      <img :src='pic' />
+      <img :src="pic" />
       <span class="loading"></span>
     </div>
   </div>
@@ -46,8 +46,10 @@ export default {
       // 上传图片
       uploadImg(formDate).then((res) => {
         if (res.code === 200) {
-          this.pic = process.env.NODE_ENV === 'production'?
-          config.baseUrl.pro : config.baseUrl.dev+ res.data;
+          this.pic =
+            process.env.NODE_ENV === 'production'
+              ? config.baseUrl.pro + res.data
+              : config.baseUrl.dev + res.data;
           // 更新用户资料
           updateUserInfo({ pic: this.pic }).then((res) => {
             if (res.code === 200) {
