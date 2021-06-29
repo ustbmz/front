@@ -46,7 +46,8 @@ export default {
       // 上传图片
       uploadImg(formDate).then((res) => {
         if (res.code === 200) {
-          this.pic = config.baseUrl.dev + res.data;
+          this.pic = process.env.NODE_ENV === 'production'?
+          config.baseUrl.pro : config.baseUrl.dev+ res.data;
           // 更新用户资料
           updateUserInfo({ pic: this.pic }).then((res) => {
             if (res.code === 200) {
