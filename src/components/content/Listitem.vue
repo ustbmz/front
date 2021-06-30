@@ -2,7 +2,7 @@
   <div class="fly-panel" style="margin-bottom: 0">
     <ul class="fly-list">
       <li v-for="(item, index) in items" :key="'listitems' + index">
-        <a href="user/home.html" class="fly-avatar">
+        <a class="fly-avatar">
           <img :src="item.uid.pic" alt="贤心" />
         </a>
         <h2>
@@ -10,11 +10,13 @@
           <a href="jie/detail.html">{{ item.title }}</a>
         </h2>
         <div class="fly-list-info">
-          <a href="user/home.html" link>
+          <a link>
             <cite>{{ item.uid.name }}</cite>
             <!-- <i class="iconfont icon-renzheng" title="认证信息：XXX"></i> -->
-            <i class="layui-badge fly-badge-vip" v-if="item.uid.isVip == '1'">
-            </i>
+            <i
+              class="layui-badge fly-badge-vip"
+              v-if="item.uid.isVip == '1'"
+            ></i>
           </a>
           <span>{{ item.created }}</span>
 
@@ -33,13 +35,18 @@
             {{ item.answer }}
           </span>
         </div>
-        <div class="fly-list-badge" v-show="item.tags.length > 0 && item.tags[0].name !== ''">
+        <div
+          class="fly-list-badge"
+          v-show="item.tags.length > 0 && item.tags[0].name !== ''"
+        >
           <span
             class="layui-badge"
             v-for="(tag, index) in item.tags"
             :key="'tag' + index"
             :class="tag.class"
-          >{{tag.name}}</span>
+          >
+            {{ tag.name }}
+          </span>
         </div>
       </li>
     </ul>
@@ -55,9 +62,9 @@
 </template>
 
 <script>
-import _ from "lodash";
+import _ from 'lodash';
 export default {
-  name: "listitem",
+  name: 'listitem',
   props: {
     lists: {
       default: () => [],
@@ -76,23 +83,23 @@ export default {
     items() {
       _.map(this.lists, (item) => {
         switch (item.catalog) {
-          case "ask":
-            item.catalog = "提问";
+          case 'ask':
+            item.catalog = '提问';
             break;
-          case "share":
-            item.catalog = "分享";
+          case 'share':
+            item.catalog = '分享';
             break;
-          case "discuss":
-            item.catalog = "讨论";
+          case 'discuss':
+            item.catalog = '讨论';
             break;
-          case "advise":
-            item.catalog = "建议";
+          case 'advise':
+            item.catalog = '建议';
             break;
-          case "notice":
-            item.catalog = "公告";
+          case 'notice':
+            item.catalog = '公告';
             break;
           default:
-            item.catalog = "未知";
+            item.catalog = '未知';
             break;
         }
       });
@@ -101,7 +108,7 @@ export default {
   },
   methods: {
     more() {
-      this.$emit("nextpage");
+      this.$emit('nextpage');
     },
   },
 };

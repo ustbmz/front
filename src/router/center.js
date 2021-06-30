@@ -11,6 +11,8 @@ const Bind = () => import(/* webpackChunkName: 'bind' */ '../components/user/com
 const MyPost = () => import(/* webpackChunkName: 'bind' */ '../components/user/common/userpost.vue')
 const UserCollection = () => import(/* webpackChunkName: 'bind' */ '../components/user/common/usercollection.vue')
 
+
+
 export default [
   {
     path: '',
@@ -18,6 +20,7 @@ export default [
     meta: { requiresAuth: true },
     component: UserCenter,
   },
+  
 
   {
     path: 'setting',

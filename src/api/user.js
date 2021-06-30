@@ -16,15 +16,17 @@ const resetEmail = async (data) => {
 }
 
 const resetPasswd = async (data) => {
-  console.log(data);
   return axios.post('/public/reset-passwd', {
     ...data
   })
 }
 
+const updatePassword = async (data) => axios.post('/user/password', data)
+
 export {
   userSign,
   updateUserInfo,
   resetEmail,
-  resetPasswd
+  resetPasswd,
+  updatePassword
 }

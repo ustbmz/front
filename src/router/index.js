@@ -17,6 +17,7 @@ Vue.use(Router)
 const notFound = () => import(/* webpackChunkName: 'notfound' */ '../views/404.vue')
 const Confrim = () => import(/* webpackChunkName: 'notfound' */ '../views/Confirm.vue')
 const Reset = () => import(/* webpackChunkName: 'notfound' */ '../views/Reset.vue')
+const Add = () => import(/* webpackChunkName: 'center' */ '../components/content/Add.vue')
 Vue.use(Router)
 
 const router = new Router({
@@ -85,6 +86,11 @@ const router = new Router({
       path: '/reset',
       name: 'reset',
       component: Reset,
+    },
+    {
+      path: '/add',
+      name: 'add',
+      component: Add,
     },
     {
       path: "/404",
