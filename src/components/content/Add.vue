@@ -12,117 +12,115 @@
           </ul>
           <div class="layui-form layui-tab-content" id="LAY_ucm" style="padding: 20px 0">
             <div class="layui-tab-item layui-show">
-              <form action="" method="post">
-                <div class="layui-row layui-col-space15 layui-form-item">
-                  <div class="layui-col-md3">
-                    <label class="layui-form-label">所在专栏</label>
+              <div class="layui-row layui-col-space15 layui-form-item">
+                <div class="layui-col-md3">
+                  <label class="layui-form-label">所在专栏</label>
+                  <div
+                    class="layui-input-block"
+                    @click="
+                      () => {
+                        this.isSelect = !this.isSelect
+                      }
+                    "
+                  >
                     <div
-                      class="layui-input-block"
-                      @click="
-                        () => {
-                          this.isSelect = !this.isSelect
-                        }
-                      "
+                      class="layui-unselect layui-form-select"
+                      :class="{ 'layui-form-selected': isSelect }"
                     >
-                      <div
-                        class="layui-unselect layui-form-select"
-                        :class="{ 'layui-form-selected': isSelect }"
-                      >
-                        <div class="layui-select-title">
-                          <input
-                            type="text"
-                            placeholder="请选择"
-                            readonly
-                            v-model="catalogs[cataIndex].text"
-                            class="layui-input layui-unselect"
-                          />
-                        </div>
-                        <dl class="layui-anim layui-anim-upbit">
-                          <dd
-                            v-for="(item, index) in catalogs"
-                            :key="'catelog' + index"
-                            @click="changeCatelog(item, index)"
-                            :class="{ 'layui-this': index === cataIndex }"
-                          >
-                            {{ item.text }}
-                          </dd>
-                        </dl>
+                      <div class="layui-select-title">
+                        <input
+                          type="text"
+                          placeholder="请选择"
+                          readonly
+                          v-model="catalogs[cataIndex].text"
+                          class="layui-input layui-unselect"
+                        />
                       </div>
-                    </div>
-                  </div>
-                  <div class="layui-col-md9">
-                    <label for="L_title" class="layui-form-label">标题</label>
-                    <div class="layui-input-block">
-                      <input type="text" v-model="title" class="layui-input" />
+                      <dl class="layui-anim layui-anim-upbit">
+                        <dd
+                          v-for="(item, index) in catalogs"
+                          :key="'catelog' + index"
+                          @click="changeCatelog(item, index)"
+                          :class="{ 'layui-this': index === cataIndex }"
+                        >
+                          {{ item.text }}
+                        </dd>
+                      </dl>
                     </div>
                   </div>
                 </div>
-                <editor @changeContent="changeContent"></editor>
-                <div class="layui-form-item">
-                  <div class="layui-inline">
-                    <label class="layui-form-label">悬赏飞吻</label>
+                <div class="layui-col-md9">
+                  <label for="L_title" class="layui-form-label">标题</label>
+                  <div class="layui-input-block">
+                    <input type="text" v-model="title" class="layui-input" />
+                  </div>
+                </div>
+              </div>
+              <editor @changeContent="changeContent" :lastContent='content'></editor>
+              <div class="layui-form-item">
+                <div class="layui-inline">
+                  <label class="layui-form-label">悬赏飞吻</label>
+                  <div
+                    class="layui-input-block"
+                    @click="
+                      () => {
+                        this.isSelect_fav = !this.isSelect_fav
+                      }
+                    "
+                  >
                     <div
-                      class="layui-input-block"
-                      @click="
-                        () => {
-                          this.isSelect_fav = !this.isSelect_fav
-                        }
-                      "
+                      class="layui-unselect layui-form-select"
+                      :class="{ 'layui-form-selected': isSelect_fav }"
                     >
-                      <div
-                        class="layui-unselect layui-form-select"
-                        :class="{ 'layui-form-selected': isSelect_fav }"
-                      >
-                        <div class="layui-select-title">
-                          <input
-                            type="text"
-                            placeholder="请选择"
-                            readonly
-                            v-model="favs[favIndex]"
-                            class="layui-input layui-unselect"
-                          />
-                        </div>
-                        <dl class="layui-anim layui-anim-upbit">
-                          <dd
-                            v-for="(item, index) in favs"
-                            :key="'fav' + index"
-                            @click="changeFav(item, index)"
-                            :class="{ 'layui-this': index === favIndex }"
-                          >
-                            {{ item }}
-                          </dd>
-                        </dl>
-                        <div class="layui-form-mid layui-word-aux">发表后无法更改飞吻</div>
+                      <div class="layui-select-title">
+                        <input
+                          type="text"
+                          placeholder="请选择"
+                          readonly
+                          v-model="favs[favIndex]"
+                          class="layui-input layui-unselect"
+                        />
                       </div>
+                      <dl class="layui-anim layui-anim-upbit">
+                        <dd
+                          v-for="(item, index) in favs"
+                          :key="'fav' + index"
+                          @click="changeFav(item, index)"
+                          :class="{ 'layui-this': index === favIndex }"
+                        >
+                          {{ item }}
+                        </dd>
+                      </dl>
+                      <div class="layui-form-mid layui-word-aux">发表后无法更改飞吻</div>
                     </div>
                   </div>
                 </div>
-                <div class="layui-form-item">
-                  <div class="layui-row">
-                    <label for="L_vercode" class="layui-form-label">
-                      验证码
-                    </label>
-                    <div class="layui-input-inline">
-                      <input
-                        type="text"
-                        name="code"
-                        v-model="code"
-                        placeholder="请输入验证码"
-                        autocomplete="off"
-                        class="layui-input"
-                      />
-                    </div>
-                    <div class>
-                      <span class="svg" style="color: #c00" @click="_getCode()" v-html="svg"></span>
-                    </div>
+              </div>
+              <div class="layui-form-item">
+                <div class="layui-row">
+                  <label for="L_vercode" class="layui-form-label">
+                    验证码
+                  </label>
+                  <div class="layui-input-inline">
+                    <input
+                      type="text"
+                      name="code"
+                      v-model="code"
+                      placeholder="请输入验证码"
+                      autocomplete="off"
+                      class="layui-input"
+                    />
+                  </div>
+                  <div class>
+                    <span class="svg" style="color: #c00" @click="_getCode()" v-html="svg"></span>
                   </div>
                 </div>
-                <div class="layui-form-item">
-                  <button class="layui-btn" lay-filter="*" lay-submit>
-                    立即发布
-                  </button>
-                </div>
-              </form>
+              </div>
+              <div class="layui-form-item">
+                <button class="layui-btn" @click="submit()">
+                  立即发布
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -132,6 +130,7 @@
 </template>
 
 <script>
+import { addPost } from '@/api/content'
 import Editor from '@/components/modules/editor'
 import CodeMix from '@/mixin/code'
 export default {
@@ -173,6 +172,23 @@ export default {
       title: '',
     }
   },
+  mounted() {
+    const lastData = JSON.parse(localStorage.getItem('addData'))
+    if (lastData && lastData.title !== '') {
+      this.$confirm(
+        '是否加载上次未完成的数据',
+        () => {
+            (this.title = lastData.title),
+            (this.cataIndex = parseInt(lastData.cataIndex)),
+            (this.favIndex = parseInt(lastData.favIndex)),
+            (this.content = lastData.content)
+        },
+        () => {
+          localStorage.removeItem('addData')
+        }
+      )
+    }
+  },
   computed: {
     isHide() {
       return this.$store.state.isHide
@@ -187,6 +203,33 @@ export default {
     },
     changeContent(val) {
       this.content = val
+      const obj = {
+        title: this.title,
+        cataIndex: this.cataIndex,
+        favIndex: this.favIndex,
+        content: this.content,
+      }
+      localStorage.setItem('addData', JSON.stringify(obj))
+    },
+    submit() {
+      addPost({
+        title: this.title,
+        code: this.code,
+        catalog: this.catalogs[this.cataIndex].value,
+        fav: this.favs[this.favIndex],
+        content: this.content,
+        sid: this.$store.state.sid,
+      }).then(res => {
+        if(res.code === 200){
+          localStorage.setItem('addData','')
+          this.$alert(res.msg)
+          setTimeout(()=>{
+            this.$router.push({'name':'index'})
+          },2000)
+        }else{
+          this.$alert(res.msg)
+        }
+      })
     },
   },
 }

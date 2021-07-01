@@ -77,6 +77,7 @@ import CodeText from './code.vue'
 import Preview from './preview.vue'
 export default {
   name: 'editor',
+  props: ['lastContent'],
   components: {
     Face,
     UploadImage,
@@ -92,6 +93,13 @@ export default {
       codeWidth: 0,
       content: '',
       pos: 0,
+    }
+  },
+  watch: {
+    lastContent(newval){
+      if(newval){
+        this.content = this.lastContent
+      }
     }
   },
   updated () {
@@ -231,8 +239,12 @@ export default {
   position: relative;
 }
 .edit-content {
+  background: #f9f9f9;
   position: absolute;
   top: 45px;
   left: 0;
+}
+.layui-layer-prompt{
+  box-shadow: 0 0 20px rgba(0,0,0,0.2);
 }
 </style>

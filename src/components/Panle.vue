@@ -5,12 +5,7 @@
         <router-link tag="li" to="/index" class="layui-hide-xs">
           <a>首页</a>
         </router-link>
-        <router-link
-          tag="li"
-          v-for="(item, index) in List"
-          :key="'panel' + index"
-          :to="item.path"
-        >
+        <router-link tag="li" v-for="(item, index) in List" :key="'panel' + index" :to="item.path">
           <a>
             {{ item.name }}
             <span class="layui-badge-dot" v-if="item.isNew"></span>
@@ -32,7 +27,7 @@
 
       <div class="fly-column-right layui-hide-xs">
         <span class="fly-search"><i class="layui-icon"></i></span>
-        <router-link to="/add"  class="layui-btn">发表新帖</router-link>
+        <router-link :to="{ name: 'add' }" class="layui-btn">发表新帖</router-link>
       </div>
       <div
         class="layui-hide-sm layui-show-xs-block"
@@ -50,39 +45,39 @@ export default {
     return {
       List: [
         {
-          name: "提问",
-          path: "/index/ask",
+          name: '提问',
+          path: '/index/ask',
           isNew: false,
         },
         {
-          name: "分享",
-          path: "/index/share",
+          name: '分享',
+          path: '/index/share',
           isNew: true,
         },
         {
-          name: "讨论",
-          path: "/index/discuss",
+          name: '讨论',
+          path: '/index/discuss',
           isNew: false,
         },
         {
-          name: "建议",
-          path: "/index/advise",
+          name: '建议',
+          path: '/index/advise',
           isNew: false,
         },
         {
-          name: "公告",
-          path: "/index/notice",
+          name: '公告',
+          path: '/index/notice',
           isNew: false,
         },
         {
-          name: "动态",
-          path: "/index/logs",
+          name: '动态',
+          path: '/index/logs',
           isNew: false,
         },
       ],
-    };
+    }
   },
-};
+}
 </script>
 
 <style lang="scss" scoped></style>

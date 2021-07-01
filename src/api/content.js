@@ -27,5 +27,10 @@ const uploadImg = (pic) => {
   return axios.post('/content/upload', pic)
 }
 
+const addPost = (data) => {
+  return axios.post('/content/add', {
+    ...data
+  })
+}
 
-export { getList, getTips, getTop, getLinks, uploadImg }
+export { getList, getTips, getTop, getLinks, uploadImg, addPost }
