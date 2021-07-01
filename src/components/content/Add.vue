@@ -1,5 +1,5 @@
 <template>
-  <div class="layui-container fly-marginTop">
+  <div class="layui-container fly-marginTop" :class="{ 'd-hide': isHide }">
     <div class="fly-panel" pad20 style="padding-top: 5px">
       <!--<div class="fly-none">没有权限</div>-->
       <div class="layui-form layui-form-pane">
@@ -20,16 +20,30 @@
                       class="layui-input-block"
                       @click="
                         () => {
-                          this.isSelect = !this.isSelect;
+                          this.isSelect = !this.isSelect
                         }
                       "
                     >
-                      <div class="layui-unselect layui-form-select" :class="{ 'layui-form-selected': isSelect }">
+                      <div
+                        class="layui-unselect layui-form-select"
+                        :class="{ 'layui-form-selected': isSelect }"
+                      >
                         <div class="layui-select-title">
-                          <input type="text" placeholder="请选择" readonly v-model="catalogs[cataIndex].text" class="layui-input layui-unselect" />
+                          <input
+                            type="text"
+                            placeholder="请选择"
+                            readonly
+                            v-model="catalogs[cataIndex].text"
+                            class="layui-input layui-unselect"
+                          />
                         </div>
                         <dl class="layui-anim layui-anim-upbit">
-                          <dd v-for="(item, index) in catalogs" :key="'catelog' + index" @click="changeCatelog(item, index)" :class="{ 'layui-this': index === cataIndex }">
+                          <dd
+                            v-for="(item, index) in catalogs"
+                            :key="'catelog' + index"
+                            @click="changeCatelog(item, index)"
+                            :class="{ 'layui-this': index === cataIndex }"
+                          >
                             {{ item.text }}
                           </dd>
                         </dl>
@@ -39,11 +53,11 @@
                   <div class="layui-col-md9">
                     <label for="L_title" class="layui-form-label">标题</label>
                     <div class="layui-input-block">
-                      <input type="text" id="L_title" name="title" required lay-verify="required" autocomplete="off" class="layui-input" />
+                      <input type="text" v-model="title" class="layui-input" />
                     </div>
                   </div>
                 </div>
-                <editor></editor>
+                <editor @changeContent="changeContent"></editor>
                 <div class="layui-form-item">
                   <div class="layui-inline">
                     <label class="layui-form-label">悬赏飞吻</label>
@@ -51,20 +65,34 @@
                       class="layui-input-block"
                       @click="
                         () => {
-                          this.isSelect_fav = !this.isSelect_fav;
+                          this.isSelect_fav = !this.isSelect_fav
                         }
                       "
                     >
-                      <div class="layui-unselect layui-form-select" :class="{ 'layui-form-selected': isSelect_fav }">
+                      <div
+                        class="layui-unselect layui-form-select"
+                        :class="{ 'layui-form-selected': isSelect_fav }"
+                      >
                         <div class="layui-select-title">
-                          <input type="text" placeholder="请选择" readonly v-model="favs[favIndex]" class="layui-input layui-unselect" />
+                          <input
+                            type="text"
+                            placeholder="请选择"
+                            readonly
+                            v-model="favs[favIndex]"
+                            class="layui-input layui-unselect"
+                          />
                         </div>
                         <dl class="layui-anim layui-anim-upbit">
-                          <dd v-for="(item, index) in favs" :key="'fav' + index" @click="changeFav(item, index)" :class="{ 'layui-this': index === favIndex }">
+                          <dd
+                            v-for="(item, index) in favs"
+                            :key="'fav' + index"
+                            @click="changeFav(item, index)"
+                            :class="{ 'layui-this': index === favIndex }"
+                          >
                             {{ item }}
                           </dd>
                         </dl>
-                          <div class="layui-form-mid layui-word-aux">发表后无法更改飞吻</div>
+                        <div class="layui-form-mid layui-word-aux">发表后无法更改飞吻</div>
                       </div>
                     </div>
                   </div>
@@ -75,7 +103,14 @@
                       验证码
                     </label>
                     <div class="layui-input-inline">
-                      <input type="text" name="code" v-model="code" placeholder="请输入验证码" autocomplete="off" class="layui-input" />
+                      <input
+                        type="text"
+                        name="code"
+                        v-model="code"
+                        placeholder="请输入验证码"
+                        autocomplete="off"
+                        class="layui-input"
+                      />
                     </div>
                     <div class>
                       <span class="svg" style="color: #c00" @click="_getCode()" v-html="svg"></span>
@@ -97,10 +132,10 @@
 </template>
 
 <script>
-import Editor from "@/components/modules/editor";
+import Editor from '@/components/modules/editor'
 import CodeMix from '@/mixin/code'
 export default {
-  name: "add",
+  name: 'add',
   mixins: [CodeMix],
   components: {
     Editor,
@@ -113,41 +148,48 @@ export default {
       favIndex: 0,
       catalogs: [
         {
-          text: "请选择",
-          value: "",
+          text: '请选择',
+          value: '',
         },
         {
-          text: "提问",
-          value: "ask",
+          text: '提问',
+          value: 'ask',
         },
         {
-          text: "讨论",
-          value: "discuss",
+          text: '讨论',
+          value: 'discuss',
         },
         {
-          text: "分享",
-          value: "share",
+          text: '分享',
+          value: 'share',
         },
         {
-          text: "建议",
-          value: "advise",
+          text: '建议',
+          value: 'advise',
         },
       ],
       favs: [10, 20, 30, 50, 60, 80],
-    };
+      content: '',
+      title: '',
+    }
   },
-  mounted() {
-    
+  computed: {
+    isHide() {
+      return this.$store.state.isHide
+    },
   },
   methods: {
     changeCatelog(item, index) {
-      this.cataIndex = index;
+      this.cataIndex = index
     },
     changeFav(item, index) {
-      this.favIndex = index;
+      this.favIndex = index
+    },
+    changeContent(val) {
+      this.content = val
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped></style>

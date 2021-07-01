@@ -18,10 +18,8 @@ export default {
 </script>
 
 <style lang="scss">
-@import "assets/layui/css/layui.css";
-@import "assets/css/global.css";
-@import "assets/layui/css/modules/layer/default/layer.css";
-@import "assets/iconfont/iconfont.css";
+@import 'assets/css/global.css';
+@import 'assets/css/layui-layer/layer.css';
 
 @for $i from 0 to 5 {
   .pd#{$i} {
@@ -60,7 +58,7 @@ export default {
 .gray {
   color: #999;
 }
-.orange{
+.orange {
   color: #ff5722;
 }
 
@@ -70,7 +68,13 @@ export default {
 .text-left {
   text-align: left;
 }
-.pull-right{
+.pull-right {
   float: right !important;
+}
+
+.d-hide {
+  position: absolute;
+  overflow: hidden;
+  height: 0;
 }
 </style>

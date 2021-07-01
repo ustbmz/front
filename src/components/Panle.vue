@@ -32,7 +32,7 @@
 
       <div class="fly-column-right layui-hide-xs">
         <span class="fly-search"><i class="layui-icon"></i></span>
-        <a href="jie/add.html" class="layui-btn">发表新帖</a>
+        <router-link to="/add"  class="layui-btn">发表新帖</router-link>
       </div>
       <div
         class="layui-hide-sm layui-show-xs-block"
