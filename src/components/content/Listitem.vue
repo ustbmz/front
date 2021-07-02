@@ -13,21 +13,15 @@
           <a link>
             <cite>{{ item.uid.name }}</cite>
             <!-- <i class="iconfont icon-renzheng" title="认证信息：XXX"></i> -->
-            <i
-              class="layui-badge fly-badge-vip"
-              v-if="item.uid.isVip == '1'"
-            ></i>
+            <i class="layui-badge fly-badge-vip" v-if="item.uid.isVip == '1'"></i>
           </a>
-          <span>{{ item.created }}</span>
+          <span>{{ item.created | moment }}</span>
 
           <span class="fly-list-kiss layui-hide-xs" title="悬赏飞吻">
             <i class="iconfont icon-kiss"></i>
             {{ item.fav }}
           </span>
-          <span
-            v-show="item.status !== '0'"
-            class="layui-badge fly-badge-accept layui-hide-xs"
-          >
+          <span v-show="item.status !== '0'" class="layui-badge fly-badge-accept layui-hide-xs">
             已结
           </span>
           <span class="fly-list-nums">
@@ -35,10 +29,7 @@
             {{ item.answer }}
           </span>
         </div>
-        <div
-          class="fly-list-badge"
-          v-show="item.tags.length > 0 && item.tags[0].name !== ''"
-        >
+        <div class="fly-list-badge" v-show="item.tags.length > 0 && item.tags[0].name !== ''">
           <span
             class="layui-badge"
             v-for="(tag, index) in item.tags"
@@ -62,7 +53,12 @@
 </template>
 
 <script>
-import _ from 'lodash';
+import moment from 'dayjs'
+require('dayjs/locale/zh-cn')
+import relativeTime from 'dayjs/plugin/relativeTime'
+import _ from 'lodash'
+moment.extend(relativeTime)
+
 export default {
   name: 'listitem',
   props: {
@@ -81,37 +77,42 @@ export default {
   },
   computed: {
     items() {
-      _.map(this.lists, (item) => {
+      _.map(this.lists, item => {
         switch (item.catalog) {
           case 'ask':
-            item.catalog = '提问';
-            break;
+            item.catalog = '提问'
+            break
           case 'share':
-            item.catalog = '分享';
-            break;
+            item.catalog = '分享'
+            break
           case 'discuss':
-            item.catalog = '讨论';
-            break;
+            item.catalog = '讨论'
+            break
           case 'advise':
-            item.catalog = '建议';
-            break;
+            item.catalog = '建议'
+            break
           case 'notice':
-            item.catalog = '公告';
-            break;
+            item.catalog = '公告'
+            break
           default:
-            item.catalog = '未知';
-            break;
+            item.catalog = '未知'
+            break
         }
-      });
-      return this.lists;
+      })
+      return this.lists
+    },
+  },
+  filters: {
+    moment(date) {
+      return moment(date).locale('zh-cn').fromNow()
     },
   },
   methods: {
     more() {
-      this.$emit('nextpage');
+      this.$emit('nextpage')
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>
