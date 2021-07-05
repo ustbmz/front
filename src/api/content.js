@@ -27,10 +27,20 @@ const uploadImg = (pic) => {
   return axios.post('/content/upload', pic)
 }
 
+// 发帖
 const addPost = (data) => {
   return axios.post('/content/add', {
     ...data
   })
 }
 
-export { getList, getTips, getTop, getLinks, uploadImg, addPost }
+// 获取贴子详情
+const getPostDetail = (tid) => {
+  return axios.get('/public/content/detail?tid=' + tid)
+}
+// 获取贴子详情
+const getComments = (tid) => {
+  return axios.get('/public/comments?tid=' + tid)
+}
+
+export { getList, getTips, getTop, getLinks, uploadImg, addPost, getPostDetail, getComments }

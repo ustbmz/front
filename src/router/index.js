@@ -18,6 +18,7 @@ const notFound = () => import(/* webpackChunkName: 'notfound' */ '../views/404.v
 const Confrim = () => import(/* webpackChunkName: 'notfound' */ '../views/Confirm.vue')
 const Reset = () => import(/* webpackChunkName: 'notfound' */ '../views/Reset.vue')
 const Add = () => import(/* webpackChunkName: 'center' */ '../components/content/Add.vue')
+const Detail = () => import(/* webpackChunkName: 'center' */ '../components/content/Detail.vue')
 Vue.use(Router)
 
 const router = new Router({
@@ -92,6 +93,12 @@ const router = new Router({
       name: 'add',
       meta: { requiresAuth: true },
       component: Add,
+    },
+    {
+      path: '/detail/:tid',
+      name: 'detail',
+      // meta: { requiresAuth: true },
+      component: Detail,
     },
     {
       path: "/404",

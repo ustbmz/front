@@ -7,7 +7,7 @@
         </a>
         <h2>
           <a class="layui-badge">{{ item.catalog }}</a>
-          <a href="jie/detail.html">{{ item.title }}</a>
+          <router-link :to="`/detail/${item._id}`">{{ item.title }}</router-link>
         </h2>
         <div class="fly-list-info">
           <a link>
@@ -53,11 +53,7 @@
 </template>
 
 <script>
-import moment from 'dayjs'
-require('dayjs/locale/zh-cn')
-import relativeTime from 'dayjs/plugin/relativeTime'
 import _ from 'lodash'
-moment.extend(relativeTime)
 
 export default {
   name: 'listitem',
@@ -100,11 +96,6 @@ export default {
         }
       })
       return this.lists
-    },
-  },
-  filters: {
-    moment(date) {
-      return moment(date).locale('zh-cn').fromNow()
     },
   },
   methods: {
