@@ -23,7 +23,7 @@
             <div class="layui-tab-content">
               <ul class="layui-tab-item layui-show">
                 <li v-for="(item, index) in lists" :key="'signli' + index">
-                  <img src="/img/header.jpg" />
+                  <img src="/img/user02.jpeg" />
                   <cite>{{ item.name }}</cite>
                   <span class="fly-gray" v-if="current !== 2">
                     签到于

@@ -38,15 +38,6 @@ const addPost = (data) => {
 const getPostDetail = (tid) => {
   return axios.get('/public/content/detail?tid=' + tid)
 }
-// 获取贴子详情
-const getComments = (tid) => {
-  return axios.get('/public/comments?tid=' + tid)
-}
-// 添加评论
-const addComments = (data) => {
-  return axios.post('/comments/add', {
-    ...data
-  })
-}
 
-export { getList, getTips, getTop, getLinks, uploadImg, addPost, getPostDetail, getComments, addComments }
+
+export { getList, getTips, getTop, getLinks, uploadImg, addPost, getPostDetail }

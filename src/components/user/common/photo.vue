@@ -28,7 +28,7 @@ export default {
   name: 'pic-upload',
   data() {
     return {
-      pic: '/img/header.jpg',
+      pic: '/img/user02.jpeg',
       formData: '',
     }
   },

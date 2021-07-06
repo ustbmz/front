@@ -11,12 +11,12 @@
               page.catalog | trasnCatalog
             }}</span>
 
-            <span class="layui-badge" style="background-color: #999;" v-if="page.isEnd === '0'"
-              >未结</span
-            >
+            <span class="layui-badge" style="background-color: #999;" v-if="page.isEnd === '0'">
+              未结
+            </span>
             <span class="layui-badge" style="background-color: #5FB878;" v-else>已结</span>
 
-            <template v-if="page.tags !== {}">
+            <template v-if="page.tags !== []">
               <span
                 class="layui-badge layui-bg-black"
                 v-for="(item, index) in page.tags"
@@ -32,12 +32,12 @@
           </div>
           <div class="detail-about">
             <a class="fly-avatar">
-              <img class="userpic" :src="page.user ? page.user.pic : ''" />
+              <img class="userpic" :src="page.user ? page.user.pic : '/public/img/user.jpeg'" />
             </a>
             <div class="fly-detail-user">
               <a href="" class="fly-link">
                 <cite>{{ page.user ? page.user.name : '' }}</cite>
-                <i class="layui-badge fly-badge-vip">
+                <i class="layui-badge fly-badge-vip ml1">
                   VIP{{ page.user ? page.user.isVip : '0' }}
                 </i>
               </a>
@@ -51,7 +51,7 @@
             <a href="" class="layui-btn layui-btn-sm jie-admin">编辑</a>
             <a href="" class="layui-btn layui-btn-sm jie-admin">收藏</a>
           </div>
-          <div class="detail-body photos" v-richtext="page.content"></div>
+          <div class="detail-body photos" v-html="escapeHtmlStr"></div>
         </div>
 
         <div class="fly-panel detail-box" id="flyReply">
@@ -74,7 +74,9 @@
                 <div class="fly-detail-user">
                   <a href="" class="fly-link">
                     <cite>{{ item.cuid.name }}</cite>
-                    <i class="layui-badge fly-badge-vip">{{ item.cuid.isVip }}</i>
+                    <i class="layui-badge fly-badge-vip" v-if="item.cuid.isVip !== '0'">
+                      VIP{{ item.cuid.isVip }}</i
+                    >
                   </a>
 
                   <span v-if="index === 0">(楼主)</span>
@@ -88,7 +90,7 @@
                   <span>{{ item.created | moment }}</span>
                 </div>
 
-                <i class="iconfont icon-caina" title="最佳答案"></i>
+                <i class="iconfont icon-caina" title="最佳答案" v-if="item.isBest === '1'"></i>
               </div>
               <div class="detail-body jieda-body photos" v-richtext="item.content"></div>
               <div class="jieda-reply">
@@ -101,9 +103,17 @@
                   回复
                 </span>
                 <div class="jieda-admin">
-                  <span type="edit">编辑</span>
-                  <span type="del">删除</span>
-                  <!-- <span class="jieda-accept" type="accept">采纳</span> -->
+                  <span type="edit" v-show="user._id === item.cuid._id" @click="editComment(item)"
+                    >编辑</span
+                  >
+                  <!-- <span type="del">删除</span> -->
+                  <span
+                    type="accept"
+                    v-show="user._id === page.user._id"
+                    @click="confirmBest(item)"
+                    class="jieda-accept"
+                    >采纳</span
+                  >
                 </div>
               </div>
             </li>
@@ -151,13 +161,16 @@
 </template>
 
 <script>
-import { getPostDetail, getComments, addComments } from '@/api/content'
+import { getPostDetail } from '@/api/content'
+import { getComments, addComments, editComment, bestComment } from '@/api/comments'
 import Panle from '@/components/Panle.vue'
 import Editor from '@/components/modules/editor'
 import HotList from '@/components/sidebar/HotList.vue'
 import Links from '@/components/sidebar/Links.vue'
 import Ads from '@/components/sidebar/Ads.vue'
 import CodeMix from '@/mixin/code'
+import escapeHtml from '@/utils/escapeHtml'
+import { ScrollToElem } from '@/utils/common'
 
 export default {
   name: 'detail',
@@ -168,6 +181,7 @@ export default {
       page: {},
       comments: '',
       cominfo: {
+        cid: '',
         sid: '',
         content: '',
         tid: '',
@@ -183,11 +197,38 @@ export default {
     Editor,
   },
   mounted() {
+    // window.vue = ScrollToElem
     this.tid = this.$route.params.tid
     this._getPostDetail()
     this._getComments()
   },
   methods: {
+    editComment(item) {
+      this.cominfo.content = item.content
+      // 修改评论内容
+      ScrollToElem('.layui-input-block', 1000, -65)
+      document.getElementById('edit').focus()
+      this.cominfo.cid = item._id
+      this.cominfo.item = item
+    },
+    confirmBest(item) {
+      this.$confirm(
+        '确认采纳为最佳回答吗？',
+        () => {
+          // 修改评论isBest为1
+          bestComment({
+            sid: this.$store.state.sid,
+            code: this.code,
+            cid: item._id,
+          }).then(res => {
+            if (res.code === 200) {
+              this.$pop('', '采纳成功')
+            }
+          })
+        },
+        () => {}
+      )
+    },
     submit() {
       const isLogin = this.$store.state.isLogin
       if (!isLogin) {
@@ -197,19 +238,41 @@ export default {
       this.cominfo.sid = this.$store.state.sid
       this.cominfo.tid = this.tid
       this.cominfo.code = this.code
+
+      if (this.cominfo.cid !== 'undefined' && this.cominfo.cid !== '') {
+        editComment({
+          sid: this.$store.state.sid,
+          code: this.code,
+          cid: this.cominfo.cid,
+          content: this.cominfo.content,
+        }).then(res => {
+          if (res.code === 200) {
+            const temp = this.cominfo.item
+            temp.content = this.cominfo.content
+            this.$pop('', '评论更新成功')
+            this.cominfo.content = ' '
+            this.code = ''
+            this.comments.splice(this.comments.indexOf(this.cominfo.item),1,temp)
+            // ScrollToElem('.jieda', 1000, -65)
+          }
+        })
+        return
+      }
+
       addComments(this.cominfo).then(res => {
         if (res.code === 200) {
           this.$pop('', '评论成功')
-          this.cominfo.content = ''
+          this.cominfo.content = ' '
           this.code = ''
           const user = this.$store.state.userInfo
-          res.cuid = {
+          res.data.cuid = {
             _id: user._id,
             name: user.name,
             pic: user.pic,
             isVip: user.isVip,
           }
           this.comments.push(res.data)
+          this._getCode()
         } else {
           this.$alert(res.msg)
         }
@@ -231,6 +294,17 @@ export default {
           this.comments = res.data
         }
       })
+    },
+  },
+  computed: {
+    user() {
+      return this.$store.state.userInfo
+    },
+    escapeHtmlStr() {
+      if (this.page.content === '') {
+        return ''
+      }
+      return escapeHtml(this.page.content)
     },
   },
 }
