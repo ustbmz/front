@@ -96,14 +96,14 @@ export default {
     }
   },
   watch: {
-    lastContent(newval){
-      if(newval){
+    lastContent(newval) {
+      if (newval) {
         this.content = this.lastContent
       }
-    }
+    },
   },
-  updated () {
-    this.$emit('changeContent',this.content)
+  updated() {
+    this.$emit('changeContent', this.content)
   },
   mounted() {
     this.$nextTick(() => {
@@ -116,6 +116,9 @@ export default {
       this.codeWidth = this.$refs.textEdit.offsetWidth - 60
       this.codeHeight = this.$refs.textEdit.offsetHeight - 80
     })
+  },
+  destroyed() {
+    document.querySelector('body').removeEventListener('click', this.handleBodyClick)
   },
   methods: {
     focusEvent() {
@@ -244,7 +247,7 @@ export default {
   top: 45px;
   left: 0;
 }
-.layui-layer-prompt{
-  box-shadow: 0 0 20px rgba(0,0,0,0.2);
+.layui-layer-prompt {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
 }
 </style>

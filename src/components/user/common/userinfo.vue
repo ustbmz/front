@@ -3,12 +3,7 @@
     <div class="layui-form-item">
       <label for="L_email" class="layui-form-label">邮箱</label>
       <div class="layui-input-inline">
-        <input
-          type="text"
-          v-model="username"
-          autocomplete="off"
-          class="layui-input"
-        />
+        <input type="text" v-model="username" autocomplete="off" class="layui-input" />
       </div>
       <div class="layui-form-mid layui-word-aux">
         如果您在邮箱已激活的情况下，变更了邮箱，需
@@ -42,12 +37,7 @@
     <div class="layui-form-item">
       <label for="L_city" class="layui-form-label">城市</label>
       <div class="layui-input-inline">
-        <input
-          type="text"
-          v-model="localtion"
-          autocomplete="off"
-          class="layui-input"
-        />
+        <input type="text" v-model="localtion" autocomplete="off" class="layui-input" />
       </div>
     </div>
     <div class="layui-form-item layui-form-text">
@@ -68,8 +58,8 @@
 </template>
 
 <script>
-import store from '@/store/index';
-import { updateUserInfo } from '@/api/user';
+import store from '@/store/index'
+import { updateUserInfo } from '@/api/user'
 export default {
   name: 'userinfo',
   data() {
@@ -78,14 +68,15 @@ export default {
       name: '',
       localtion: '',
       regmark: '',
-    };
+      pic: '',
+    }
   },
   mounted() {
-    const { username, name, localtion, regmark } = store.state.userInfo;
-    this.username = username;
-    this.name = name;
-    this.localtion = localtion;
-    this.regmark = regmark;
+    const { username, name, localtion, regmark } = store.state.userInfo
+    this.username = username
+    this.name = name
+    this.localtion = localtion
+    this.regmark = regmark
   },
   methods: {
     async submit() {
@@ -95,7 +86,8 @@ export default {
           name: this.name,
           localtion: this.localtion,
           regmark: this.regmark,
-        }).then((res) => {
+          pic: this.$store.state.userInfo.pic,
+        }).then(res => {
           if (res.code === 200) {
             this.$store.commit('setUserInfo', {
               ...this.$store.state.userInfo,
@@ -105,17 +97,16 @@ export default {
                 localtion: this.localtion,
                 regmark: this.regmark,
               },
-            });
-            this.$alert('数据更新成功');
+            })
+            this.$alert('数据更新成功')
           } else {
-            this.$alert('数据更新失败');
+            this.$alert('数据更新失败')
           }
-        });
+        })
       }
     },
   },
-};
+}
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

@@ -42,5 +42,11 @@ const getPostDetail = (tid) => {
 const getComments = (tid) => {
   return axios.get('/public/comments?tid=' + tid)
 }
+// 添加评论
+const addComments = (data) => {
+  return axios.post('/comments/add', {
+    ...data
+  })
+}
 
-export { getList, getTips, getTop, getLinks, uploadImg, addPost, getPostDetail, getComments }
+export { getList, getTips, getTop, getLinks, uploadImg, addPost, getPostDetail, getComments, addComments }

@@ -16,7 +16,7 @@
             >
             <span class="layui-badge" style="background-color: #5FB878;" v-else>已结</span>
 
-            <template v-if="page.tags[0].name !== ''">
+            <template v-if="page.tags !== {}">
               <span
                 class="layui-badge layui-bg-black"
                 v-for="(item, index) in page.tags"
@@ -35,11 +35,10 @@
               <img class="userpic" :src="page.user ? page.user.pic : ''" />
             </a>
             <div class="fly-detail-user">
-              <a href="../user/home.html" class="fly-link">
+              <a href="" class="fly-link">
                 <cite>{{ page.user ? page.user.name : '' }}</cite>
-                <i class="iconfont icon-renzheng" title="认证信息："></i>
                 <i class="layui-badge fly-badge-vip">
-                  {{ page.user ? page.user.isVip : '0' }}
+                  VIP{{ page.user ? page.user.isVip : '0' }}
                 </i>
               </a>
               <span>{{ page.created | moment }}</span>
@@ -52,7 +51,7 @@
             <a href="" class="layui-btn layui-btn-sm jie-admin">编辑</a>
             <a href="" class="layui-btn layui-btn-sm jie-admin">收藏</a>
           </div>
-          <div class="detail-body photos" v-html="escapeHtmlStr"></div>
+          <div class="detail-body photos" v-richtext="page.content"></div>
         </div>
 
         <div class="fly-panel detail-box" id="flyReply">
@@ -91,13 +90,11 @@
 
                 <i class="iconfont icon-caina" title="最佳答案"></i>
               </div>
-              <div class="detail-body jieda-body photos">
-                <p>{{ item.content }}</p>
-              </div>
+              <div class="detail-body jieda-body photos" v-richtext="item.content"></div>
               <div class="jieda-reply">
-                <span class="jieda-zan" :class="{'zanok':item.ishand === 0}" type="zan">
+                <span class="jieda-zan" :class="{ zanok: item.ishand === 0 }" type="zan">
                   <i class="iconfont icon-zan"></i>
-                  <em>{{item.hands}}</em>
+                  <em>{{ item.hands }}</em>
                 </span>
                 <span type="reply">
                   <i class="iconfont icon-svgmoban53"></i>
@@ -115,7 +112,7 @@
             <li class="fly-none" v-if="comments.length === 0">消灭零回复</li>
           </ul>
           <div class="layui-form layui-form-pane">
-            <editor></editor>
+            <editor @changeContent="addCommentContent" :lastContent="this.cominfo.content"></editor>
             <div class="layui-form-item pt2">
               <div class="layui-row">
                 <label for="L_vercode" class="layui-form-label">
@@ -154,14 +151,13 @@
 </template>
 
 <script>
-import { getPostDetail, getComments } from '@/api/content'
+import { getPostDetail, getComments, addComments } from '@/api/content'
 import Panle from '@/components/Panle.vue'
 import Editor from '@/components/modules/editor'
 import HotList from '@/components/sidebar/HotList.vue'
 import Links from '@/components/sidebar/Links.vue'
 import Ads from '@/components/sidebar/Ads.vue'
 import CodeMix from '@/mixin/code'
-import escapeHtml from '@/utils/escapeHtml'
 
 export default {
   name: 'detail',
@@ -171,6 +167,12 @@ export default {
       tid: '',
       page: {},
       comments: '',
+      cominfo: {
+        sid: '',
+        content: '',
+        tid: '',
+        code: '',
+      },
     }
   },
   components: {
@@ -186,6 +188,36 @@ export default {
     this._getComments()
   },
   methods: {
+    submit() {
+      const isLogin = this.$store.state.isLogin
+      if (!isLogin) {
+        this.$pop('shake', '请先登陆')
+        return
+      }
+      this.cominfo.sid = this.$store.state.sid
+      this.cominfo.tid = this.tid
+      this.cominfo.code = this.code
+      addComments(this.cominfo).then(res => {
+        if (res.code === 200) {
+          this.$pop('', '评论成功')
+          this.cominfo.content = ''
+          this.code = ''
+          const user = this.$store.state.userInfo
+          res.cuid = {
+            _id: user._id,
+            name: user.name,
+            pic: user.pic,
+            isVip: user.isVip,
+          }
+          this.comments.push(res.data)
+        } else {
+          this.$alert(res.msg)
+        }
+      })
+    },
+    addCommentContent(val) {
+      this.cominfo.content = val
+    },
     _getPostDetail() {
       getPostDetail(this.tid).then(res => {
         if (res.code === 200) {
@@ -199,15 +231,6 @@ export default {
           this.comments = res.data
         }
       })
-    },
-  },
-  computed: {
-    escapeHtmlStr() {
-      if (this.page.content === '') {
-        return ''
-      } else {
-        return escapeHtml(this.page.content)
-      }
     },
   },
 }

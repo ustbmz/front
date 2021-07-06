@@ -2,6 +2,8 @@ import dayjs from 'dayjs'
 require('dayjs/locale/zh-cn')
 import relativeTime from 'dayjs/plugin/relativeTime'
 dayjs.extend(relativeTime)
+import escapeHtml from '@/utils/escapeHtml'
+
 
 const moment = (date)=> {
   return dayjs(date).locale('zh-cn').fromNow()
@@ -25,6 +27,14 @@ const trasnCatalog = (val) => {
     
 }
 
+const escapehtml = (content) => {
+  if (content === '') {
+    return ''
+  } else {
+    return escapeHtml(content)
+  }
+}
+
 export default {
-  moment, trasnCatalog
+  moment, trasnCatalog, escapehtml
 }
