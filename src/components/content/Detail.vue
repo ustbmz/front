@@ -48,7 +48,12 @@
             </div>
           </div>
           <div class="layui-btn-container fly-detail-admin pt1">
-            <a href="" class="layui-btn layui-btn-sm jie-admin">编辑</a>
+            <router-link
+              :to="{ name: 'edit', params: { tid: tid, page: page } }"
+              class="layui-btn layui-btn-sm jie-admin"
+              v-show="page.isEnd === '0'"
+              >编辑</router-link
+            >
             <a href="" class="layui-btn layui-btn-sm jie-admin">收藏</a>
           </div>
           <div class="detail-body photos" v-html="escapeHtmlStr"></div>
@@ -94,7 +99,12 @@
               </div>
               <div class="detail-body jieda-body photos" v-richtext="item.content"></div>
               <div class="jieda-reply">
-                <span class="jieda-zan" :class="{ zanok: item.ishand === 0 }" type="zan">
+                <span
+                  class="jieda-zan"
+                  :class="{ zanok: item.ishand === 1 }"
+                  type="zan"
+                  @click="clickZan(item)"
+                >
                   <i class="iconfont icon-zan"></i>
                   <em>{{ item.hands }}</em>
                 </span>
@@ -103,13 +113,16 @@
                   回复
                 </span>
                 <div class="jieda-admin">
-                  <span type="edit" v-show="user._id === item.cuid._id" @click="editComment(item)"
+                  <span
+                    type="edit"
+                    v-show="user._id === item.cuid._id && page.isEnd !== '1'"
+                    @click="editComment(item)"
                     >编辑</span
                   >
                   <!-- <span type="del">删除</span> -->
                   <span
                     type="accept"
-                    v-show="user._id === page.user._id"
+                    v-show="user._id === page.user._id && page.isEnd !== '1'"
                     @click="confirmBest(item)"
                     class="jieda-accept"
                     >采纳</span
@@ -121,7 +134,7 @@
             <!-- 无数据时 -->
             <li class="fly-none" v-if="comments.length === 0">消灭零回复</li>
           </ul>
-          <div class="layui-form layui-form-pane">
+          <div class="layui-form layui-form-pane" v-show="page.isEnd === '0'">
             <editor @changeContent="addCommentContent" :lastContent="this.cominfo.content"></editor>
             <div class="layui-form-item pt2">
               <div class="layui-row">
@@ -162,7 +175,7 @@
 
 <script>
 import { getPostDetail } from '@/api/content'
-import { getComments, addComments, editComment, bestComment } from '@/api/comments'
+import { getComments, addComments, editComment, bestComment, addHand } from '@/api/comments'
 import Panle from '@/components/Panle.vue'
 import Editor from '@/components/modules/editor'
 import HotList from '@/components/sidebar/HotList.vue'
@@ -203,6 +216,21 @@ export default {
     this._getComments()
   },
   methods: {
+    clickZan(item) {
+      console.log('🚀 ~ file: Detail.vue ~ line 210 ~ clickZan ~ item', item)
+      addHand({
+        uid: item.cuid._id,
+        cid: item._id,
+      }).then(res => {
+        if (res.code === 200) {
+          this.$pop('', '点赞成功')
+          item.ishand = 1
+          item.hands += 1
+        } else {
+          this.$pop('shake', res.msg)
+        }
+      })
+    },
     editComment(item) {
       this.cominfo.content = item.content
       // 修改评论内容
@@ -218,11 +246,13 @@ export default {
           // 修改评论isBest为1
           bestComment({
             sid: this.$store.state.sid,
-            code: this.code,
             cid: item._id,
+            pid: this.page._id,
           }).then(res => {
             if (res.code === 200) {
               this.$pop('', '采纳成功')
+              this.page.isEnd = '1'
+              item.isBest = '1'
             }
           })
         },
@@ -252,7 +282,7 @@ export default {
             this.$pop('', '评论更新成功')
             this.cominfo.content = ' '
             this.code = ''
-            this.comments.splice(this.comments.indexOf(this.cominfo.item),1,temp)
+            this.comments.splice(this.comments.indexOf(this.cominfo.item), 1, temp)
             // ScrollToElem('.jieda', 1000, -65)
           }
         })

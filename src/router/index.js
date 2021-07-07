@@ -15,10 +15,11 @@ const Template1 = () => import(/* webpackChunkName: 'template1' */ '../views/cha
 const UserHome = () => import(/* webpackChunkName: 'home' */ '../views/User.vue')
 Vue.use(Router)
 const notFound = () => import(/* webpackChunkName: 'notfound' */ '../views/404.vue')
-const Confrim = () => import(/* webpackChunkName: 'notfound' */ '../views/Confirm.vue')
-const Reset = () => import(/* webpackChunkName: 'notfound' */ '../views/Reset.vue')
-const Add = () => import(/* webpackChunkName: 'center' */ '../components/content/Add.vue')
-const Detail = () => import(/* webpackChunkName: 'center' */ '../components/content/Detail.vue')
+const Confrim = () => import(/* webpackChunkName: 'confirm' */ '../views/Confirm.vue')
+const Reset = () => import(/* webpackChunkName: 'reset' */ '../views/Reset.vue')
+const Add = () => import(/* webpackChunkName: 'add' */ '../components/content/Add.vue')
+const Edit = () => import(/* webpackChunkName: 'edit' */ '../components/content/Edit.vue')
+const Detail = () => import(/* webpackChunkName: 'detail' */ '../components/content/Detail.vue')
 Vue.use(Router)
 
 const router = new Router({
@@ -93,6 +94,13 @@ const router = new Router({
       name: 'add',
       meta: { requiresAuth: true },
       component: Add,
+    },
+    {
+      path: '/edit/:tid',
+      props: true,
+      name: 'edit',
+      meta: { requiresAuth: true },
+      component: Edit,
     },
     {
       path: '/detail/:tid',

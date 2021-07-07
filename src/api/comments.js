@@ -23,4 +23,11 @@ const bestComment = (data) => {
   })
 }
 
-export { getComments, addComments, editComment, bestComment }
+// 采纳评论
+const addHand = (data) => {
+  return axios.post('/comments/addhand', {
+    ...data
+  })
+}
+
+export { getComments, addComments, editComment, bestComment, addHand }

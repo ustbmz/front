@@ -33,6 +33,12 @@ const addPost = (data) => {
     ...data
   })
 }
+// 编辑帖子
+const updatePost = (data) => {
+  return axios.post('/content/update', {
+    ...data
+  })
+}
 
 // 获取贴子详情
 const getPostDetail = (tid) => {
@@ -40,4 +46,4 @@ const getPostDetail = (tid) => {
 }
 
 
-export { getList, getTips, getTop, getLinks, uploadImg, addPost, getPostDetail }
+export { getList, getTips, getTop, getLinks, uploadImg, addPost, updatePost, getPostDetail }
