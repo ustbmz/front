@@ -6,8 +6,8 @@
         <div class="panel border">
           <div class="title">我的会员信息</div>
           <div class="content">
-            <p>积分经验值:60</p>
-            <p>您当前为:非VIP</p>
+            <p>积分经验值:{{ user.favs }}</p>
+            <p>您当前为:{{ user.isVip === '0' ? '非VIP' : 'VIP' + user.isVip }}</p>
           </div>
         </div>
       </div>
@@ -38,74 +38,90 @@
 </template>
 
 <script>
-import Sign from "@/components/sidebar/Sign.vue";
+import { getUserInfo } from '@/api/user'
+import Sign from '@/components/sidebar/Sign.vue'
 export default {
-  name: "user-center",
+  name: 'user-center',
   data() {
     return {
       lists: [
         {
-          name: "修改密码",
-          icon: "icon-Setting",
+          name: '修改密码',
+          icon: 'icon-Setting',
         },
         {
-          name: "修改密码",
-          icon: "icon-Setting",
+          name: '修改密码',
+          icon: 'icon-Setting',
         },
         {
-          name: "修改密码",
-          icon: "icon-Setting",
+          name: '修改密码',
+          icon: 'icon-Setting',
         },
         {
-          name: "修改密码",
-          icon: "icon-Setting",
+          name: '修改密码',
+          icon: 'icon-Setting',
         },
         {
-          name: "修改密码",
-          icon: "icon-Setting",
+          name: '修改密码',
+          icon: 'icon-Setting',
         },
         {
-          name: "修改密码",
-          icon: "icon-Setting",
+          name: '修改密码',
+          icon: 'icon-Setting',
         },
         {
-          name: "修改密码",
-          icon: "icon-Setting",
+          name: '修改密码',
+          icon: 'icon-Setting',
         },
         {
-          name: "修改密码",
-          icon: "icon-Setting",
+          name: '修改密码',
+          icon: 'icon-Setting',
         },
         {
-          name: "修改密码",
-          icon: "icon-Setting",
+          name: '修改密码',
+          icon: 'icon-Setting',
         },
         {
-          name: "修改密码",
-          icon: "icon-Setting",
+          name: '修改密码',
+          icon: 'icon-Setting',
         },
         {
-          name: "修改密码",
-          icon: "icon-Setting",
+          name: '修改密码',
+          icon: 'icon-Setting',
         },
         {
-          name: "修改密码",
-          icon: "icon-Setting",
+          name: '修改密码',
+          icon: 'icon-Setting',
         },
       ],
-    };
+      user: {},
+    }
   },
-  mounted() {},
+  computed: {},
+  mounted() {
+    this._getUserInfo()
+  },
+  methods: {
+    _getUserInfo() {
+      getUserInfo({
+        uid: this.$store.state.userInfo._id,
+      }).then(res => {
+        if (res.code === 200) {
+          this.user = res.data
+        }
+      })
+    },
+  },
   components: {
     Sign,
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>
-@media screen and (max-width:768px) {
-  .panel{
-    &.main{
+@media screen and (max-width: 768px) {
+  .panel {
+    &.main {
       margin: 0 !important;
     }
   }
@@ -114,7 +130,7 @@ export default {
   color: #333;
   border-radius: 2px;
   background: #fff;
-  transition: all .2s;
+  transition: all 0.2s;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   &.main {
     margin: 0 0 10px 225px;

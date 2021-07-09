@@ -22,7 +22,7 @@
           <li class="layui-nav-item">
             <router-link
               class="iconfont icon-touxiang layui-hide-xs"
-              to="../user/login.html"
+              :to="{name:'login'}"
             ></router-link>
           </li>
           <li class="layui-nav-item">
@@ -33,7 +33,7 @@
           </li>
           <li class="layui-nav-item layui-hide-xs">
             <router-link
-               to='/goQQ'
+              to="/goQQ"
               onclick="layer.msg('正在通过QQ登入', {icon:16, shade: 0.1, time:0})"
               title="QQ登入"
               class="iconfont icon-qq"
@@ -41,7 +41,7 @@
           </li>
           <li class="layui-nav-item layui-hide-xs">
             <router-link
-              to='/goWb'
+              to="/goWb"
               onclick="layer.msg('正在通过微博登入', {icon:16, shade: 0.1, time:0})"
               title="微博登入"
               class="iconfont icon-weibo"
@@ -50,16 +50,13 @@
         </template>
         <template v-else>
           <li class="layui-nav-item" @mouseover="show()" @mouseleave="hide()">
-            <a class="fly-nav-avatar" href="javascript:;">
+            <router-link class="fly-nav-avatar" :to="{name:'home',params:{uid:user._id}}">
               <cite class="layui-hide-xs">{{ user.name }}</cite>
-              <i
-                class="layui-badge fly-badge-vip layui-hide-xs"
-                v-if="user.isVip !== '0'"
-              >
+              <i class="layui-badge fly-badge-vip layui-hide-xs" v-if="user.isVip !== '0'">
                 {{ user.isVip }}
               </i>
               <img :src="user.pic" />
-            </a>
+            </router-link>
             <dl
               class="layui-nav-child layui-anim layui-anim-downbit"
               :class="{ 'layui-show': isHover }"
@@ -77,11 +74,8 @@
                 </router-link>
               </dd>
               <dd>
-                <router-link :to="{ name: 'home' }">
-                  <i
-                    class="layui-icon"
-                    style="margin-left: 2px; font-size: 22px"
-                  >
+                <router-link :to="{ name: 'home', params: { uid: user._id } }">
+                  <i class="layui-icon" style="margin-left: 2px; font-size: 22px">
                     &#xe68e;
                   </i>
                   我的主页
@@ -89,11 +83,7 @@
               </dd>
               <hr style="margin: 5px 0" />
               <dd>
-                <a
-                  href="javascript:void(0)"
-                  @click="quit()"
-                  style="text-align: center"
-                >
+                <a href="javascript:void(0)" @click="quit()" style="text-align: center">
                   退出
                 </a>
               </dd>
@@ -107,53 +97,53 @@
 
 <script>
 export default {
-  name: "Header",
+  name: 'Header',
   data() {
     return {
       isHover: false,
-      hoverContral: "",
-    };
+      hoverContral: '',
+    }
   },
   computed: {
-    isShow: function () {
-      return this.$store.state.isLogin;
+    isShow: function() {
+      return this.$store.state.isLogin
     },
-    user: function () {
-      return this.$store.state.userInfo;
+    user: function() {
+      return this.$store.state.userInfo
     },
   },
   methods: {
     show() {
-      clearTimeout(this.hoverContral);
+      clearTimeout(this.hoverContral)
       this.hoverContral = setTimeout(() => {
-        this.isHover = true;
-      }, 200);
+        this.isHover = true
+      }, 200)
     },
     hide() {
-      clearTimeout(this.hoverContral);
+      clearTimeout(this.hoverContral)
       this.hoverContral = setTimeout(() => {
-        this.isHover = false;
-      }, 300);
+        this.isHover = false
+      }, 300)
     },
     quit() {
       this.$confirm(
-        "是否退出当前用户?",
+        '是否退出当前用户?',
         () => {
           // confirm 执行
-          localStorage.clear();
-          this.$store.commit("setUserInfo", "");
-          this.$store.commit("setIsLogin", false);
-          this.$store.commit("setToken", "");
+          localStorage.clear()
+          this.$store.commit('setUserInfo', '')
+          this.$store.commit('setIsLogin', false)
+          this.$store.commit('setToken', '')
           // 忽略重复路由
-          this.$router.push("/", () => {});
+          this.$router.push('/', () => {})
         },
         () => {
           // cancel 执行
         }
-      );
+      )
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>

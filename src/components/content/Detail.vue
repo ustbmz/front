@@ -19,9 +19,9 @@
             <template v-if="page.tags !== []">
               <span
                 class="layui-badge layui-bg-black"
-                v-for="(item, index) in page.tags"
+                v-for="(temp, index) in page.tags"
                 :key="'tag' + index"
-                >{{ item.name }}
+                >{{ temp.name }}
               </span>
             </template>
 
@@ -54,7 +54,13 @@
               v-show="page.isEnd === '0'"
               >编辑</router-link
             >
-            <a href="" class="layui-btn layui-btn-sm jie-admin">收藏</a>
+            <a
+              href=""
+              :class="{ 'layui-disabled': page.isFav }"
+              class="layui-btn layui-btn-sm jie-admin"
+              @click.prevent="addCollect()"
+              >{{ page.isFav ? '取消收藏' : '收藏' }}</a
+            >
           </div>
           <div class="detail-body photos" v-html="escapeHtmlStr"></div>
         </div>
@@ -77,12 +83,12 @@
                   <img :src="item.cuid.pic" />
                 </a>
                 <div class="fly-detail-user">
-                  <a href="" class="fly-link">
+                  <router-link :to="{name:'home',params:{uid:item.cuid._id}}" class="fly-link">
                     <cite>{{ item.cuid.name }}</cite>
                     <i class="layui-badge fly-badge-vip" v-if="item.cuid.isVip !== '0'">
                       VIP{{ item.cuid.isVip }}</i
                     >
-                  </a>
+                  </router-link>
 
                   <span v-if="index === 0">(楼主)</span>
                   <!--
@@ -176,6 +182,7 @@
 <script>
 import { getPostDetail } from '@/api/content'
 import { getComments, addComments, editComment, bestComment, addHand } from '@/api/comments'
+import { userCollect,removeCollect } from '@/api/user'
 import Panle from '@/components/Panle.vue'
 import Editor from '@/components/modules/editor'
 import HotList from '@/components/sidebar/HotList.vue'
@@ -190,7 +197,6 @@ export default {
   mixins: [CodeMix],
   data() {
     return {
-      tid: '',
       page: {},
       comments: '',
       cominfo: {
@@ -211,7 +217,6 @@ export default {
   },
   mounted() {
     // window.vue = ScrollToElem
-    this.tid = this.$route.params.tid
     this._getPostDetail()
     this._getComments()
   },
@@ -325,8 +330,46 @@ export default {
         }
       })
     },
+    addCollect() {
+      if (this.page.isFav) {
+        removeCollect({
+          tid: this.page._id,
+          uid: this.$store.state.userInfo._id,
+          title: this.page.title,
+        }).then(res => {
+          if (res.code === 200) {
+            this.$pop('', '已取消收藏')
+            this.page.isFav = false
+          } else {
+            this.$pop('shake', res.msg)
+          }
+        })
+      } else {
+        userCollect({
+          tid: this.page._id,
+          uid: this.$store.state.userInfo._id,
+          title: this.page.title,
+        }).then(res => {
+          if (res.code === 200) {
+            this.$pop('', '收藏成功')
+            this.page.isFav = true
+          } else {
+            this.$pop('shake', res.msg)
+          }
+        })
+      }
+    },
+  },
+  watch: {
+    tid() {
+      this._getPostDetail()
+      this._getComments()
+    },
   },
   computed: {
+    tid() {
+      return this.$route.params.tid
+    },
     user() {
       return this.$store.state.userInfo
     },

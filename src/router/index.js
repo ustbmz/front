@@ -69,7 +69,8 @@ const router = new Router({
       component: Forget,
     },
     {
-      path: '/home',
+      path: '/home/:uid',
+      props: true,
       name: 'home',
       component: UserHome,
     },

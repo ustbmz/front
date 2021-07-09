@@ -4,7 +4,7 @@ const htmlEncode = (html) => {
   let temp = document.createElement('div')
   temp.textContent !== undefined ? (temp.textContent = html) : (temp.innerText = html)
   //TODO why ?
-  console.log('🚀 ~ file: escapeHtml.js ~ line 6 ~ htmlEncode ~ temp', temp)
+  // console.log('🚀 ~ file: escapeHtml.js ~ line 6 ~ htmlEncode ~ temp', temp)
   const output = temp.innerHTML
   temp = null
   return output

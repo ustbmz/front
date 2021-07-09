@@ -224,7 +224,7 @@ export default {
           localStorage.setItem('addData','')
           this.$alert(res.msg)
           setTimeout(()=>{
-            this.$router.push({'name':'index'})
+            this.$router.push({'name':'detail',params:{tid:res.data._id}})
           },2000)
         }else{
           this.$alert(res.msg)

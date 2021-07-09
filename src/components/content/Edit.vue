@@ -215,10 +215,10 @@ export default {
       }).then(res => {
         if (res.code === 200) {
           localStorage.setItem('editData', '')
-          this.$alert(res.msg)
+          this.$pop('',res.msg)
           setTimeout(() => {
             this.$router.push({ name: 'detail', params: { tid: this.tid } })
-          }, 2000)
+          }, 1000)
         } else {
           this.$alert(res.msg)
         }

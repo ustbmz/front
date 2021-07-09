@@ -12,9 +12,9 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>测试帖子标题数据</td>
-          <td>2016-11-29</td>
+        <tr v-for="(item,index) in list" :key="'post'+index">
+          <td><router-link class="link" :to="{name:'detail',params:{tid:item.tid}}">{{item.title}}</router-link></td>
+          <td>{{item.created | moment}}</td>
         </tr>
       </tbody>
     </table>
@@ -22,10 +22,35 @@
 </template>
 
 <script>
+import {getUserCollect} from '@/api/user'
 export default {
   name: 'user-collections',
+  data () {
+    return {
+      list:[]
+    }
+  },
+  mounted () {
+    this._getUserCollect()
+  },
+  methods: {
+    _getUserCollect(){
+      getUserCollect({
+        uid:this.$store.state.userInfo._id
+      }).then((res)=>{
+        if(res.code === 200){
+          this.list = res.data
+        }else{
+          this.$pop('shake',res.msg)
+        }
+      })
+    }
+  }
 };
 </script>
 
 <style lang="scss" scoped>
+.link{
+  color: #0662ca;
+}
 </style>
