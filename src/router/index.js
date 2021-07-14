@@ -111,7 +111,7 @@ const router = new Router({
     },
     {
       path: "/404",
-      component:notFound
+      component: notFound
     },
     {
       path: '*',
@@ -131,6 +131,9 @@ router.beforeEach((to, from, next) => {
       store.commit('setUserInfo', userInfo)
       store.commit('setIsLogin', true)
       store.commit('setToken', token)
+      if (!store.state.ws) {
+        store.commit('initWebSocket', {})
+      }
     } else {
       localStorage.clear()
     }

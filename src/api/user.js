@@ -29,6 +29,7 @@ const getUserCollect = async (data) => axios.post('/content/collect', data)
 const getUserInfo = async (data) => axios.post('/public/userinfo', data)
 const getPostList = async (data) => axios.post('/public/postlist', data)
 const getCommentsList = async (data) => axios.post('/public/commentslist', data)
+const getMsg = async (data) => axios.post('/user/getmsg', data)
 
 export {
   userSign,
@@ -42,5 +43,6 @@ export {
   getUserCollect,
   getUserInfo,
   getPostList,
-  getCommentsList
+  getCommentsList,
+  getMsg
 }

@@ -22,7 +22,7 @@
           <li class="layui-nav-item">
             <router-link
               class="iconfont icon-touxiang layui-hide-xs"
-              :to="{name:'login'}"
+              :to="{ name: 'login' }"
             ></router-link>
           </li>
           <li class="layui-nav-item">
@@ -50,7 +50,7 @@
         </template>
         <template v-else>
           <li class="layui-nav-item" @mouseover="show()" @mouseleave="hide()">
-            <router-link class="fly-nav-avatar" :to="{name:'home',params:{uid:user._id}}">
+            <router-link class="fly-nav-avatar" :to="{ name: 'home', params: { uid: user._id } }">
               <cite class="layui-hide-xs">{{ user.name }}</cite>
               <i class="layui-badge fly-badge-vip layui-hide-xs" v-if="user.isVip !== '0'">
                 {{ user.isVip }}
@@ -89,6 +89,13 @@
               </dd>
             </dl>
           </li>
+          <div class="fly-nav-msg">{{num}}</div>
+          <div class="layui-layer-tips" v-show="hasMsg">
+            <div class="layui-layer-content">
+              您有{{ num }}条未读消息
+              <i class="layui-layer-TipsG layui-layer-TipsB"></i>
+            </div>
+          </div>
         </template>
       </ul>
     </div>
@@ -96,15 +103,30 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   name: 'Header',
   data() {
     return {
       isHover: false,
       hoverContral: '',
+      hasMsg:false
     }
   },
+  watch: {
+    num(newval, oldval) {
+      if (newval !== oldval) {
+        this.hasMsg = true
+        setTimeout(() => {
+          this.hasMsg = false
+        }, 5000)
+      }
+    },
+  },
   computed: {
+    ...mapState({
+      num: state => state.num,
+    }),
     isShow: function() {
       return this.$store.state.isLogin
     },
@@ -155,5 +177,11 @@ export default {
 .pdl20 {
   top: 0px;
   padding-left: 20px;
+}
+.layui-layer-tips {
+  position: fixed;
+  right: 0;
+  white-space: nowrap;
+  z-index: 3000;
 }
 </style>
