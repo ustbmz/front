@@ -1,7 +1,7 @@
 <template>
   <div class="fly-panel fly-panel-user" pad20>
     <div class="layui-tab layui-tab-brief" lay-filter="user" id="LAY_msg" style="margin-top: 15px;">
-      <button class="layui-btn layui-btn-danger" id="LAY_delallmsg">清空全部消息</button>
+      <button class="layui-btn layui-btn-danger" @click="_readAllMsg()">清空全部消息</button>
       <div id="LAY_minemsg" style="margin-top: 10px;">
         <!--<div class="fly-none">您暂时没有最新消息</div>-->
         <ul class="mine-msg">
@@ -19,10 +19,14 @@
               </a>
             </blockquote>
             <p>
-              <span>{{ item.created | moment }}</span
-              ><a href="javascript:;" class="layui-btn layui-btn-small layui-btn-danger fly-delete"
-                >删除</a
+              <span>{{ item.created | moment }}</span>
+              <a
+                href="javascript:;"
+                class="layui-btn layui-btn-small layui-btn-danger fly-delete"
+                @click="_readOneMsg(item)"
               >
+                删除
+              </a>
             </p>
           </li>
         </ul>
@@ -32,7 +36,7 @@
 </template>
 
 <script>
-import { getMsg } from '@/api/user'
+import { getMsg, readAllMsg, readOneMsg } from '@/api/user'
 export default {
   name: 'user-msg',
   data() {
@@ -51,6 +55,35 @@ export default {
           console.log(this.list)
         }
       })
+    },
+    _readAllMsg() {
+      this.$confirm(
+        '是否全部已读?',
+        () => {
+          readAllMsg().then(res => {
+            if (res.code === 200) {
+              this.$pop('', '全部已读')
+            }
+          })
+        },
+        () => {}
+      )
+    },
+    _readOneMsg(item) {
+      this.$confirm(
+        '确认删除?',
+        () => {
+          readOneMsg({
+            id: item._id,
+          }).then(res => {
+            if (res.code === 200) {
+              this.list.splice(this.list.indexOf(item),1)
+              this.$pop('', '消息已读')
+            }
+          })
+        },
+        () => {}
+      )
     },
   },
 }

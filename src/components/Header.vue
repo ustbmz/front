@@ -89,7 +89,9 @@
               </dd>
             </dl>
           </li>
-          <div class="fly-nav-msg">{{num}}</div>
+          <div class="fly-nav-msg">
+            <router-link :to="{ name: 'msg'}">{{ num }}</router-link>
+          </div>
           <div class="layui-layer-tips" v-show="hasMsg">
             <div class="layui-layer-content">
               您有{{ num }}条未读消息
@@ -110,7 +112,7 @@ export default {
     return {
       isHover: false,
       hoverContral: '',
-      hasMsg:false
+      hasMsg: false,
     }
   },
   watch: {

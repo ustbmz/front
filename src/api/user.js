@@ -30,6 +30,8 @@ const getUserInfo = async (data) => axios.post('/public/userinfo', data)
 const getPostList = async (data) => axios.post('/public/postlist', data)
 const getCommentsList = async (data) => axios.post('/public/commentslist', data)
 const getMsg = async (data) => axios.post('/user/getmsg', data)
+const readAllMsg = async (data) => axios.post('/user/readallmsg', data)
+const readOneMsg = async (data) => axios.post('/user/readonemsg', data)
 
 export {
   userSign,
@@ -44,5 +46,7 @@ export {
   getUserInfo,
   getPostList,
   getCommentsList,
-  getMsg
+  getMsg,
+  readAllMsg,
+  readOneMsg
 }
