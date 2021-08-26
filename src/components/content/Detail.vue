@@ -24,12 +24,55 @@
                 >{{ temp.name }}
               </span>
             </template>
+            <!-- method1: vuex -> userInfo -> roles -> includes admin -->
+            <!-- method2: 组件级权限控制 richtext -->
+            <div v-hasRole="'admin'">
+              <div class="fly-admin-box" data-id="123">
+                <span
+                  v-hasPermission="['get', 'delete']"
+                  class="layui-btn layui-btn-xs jie-admin"
+                  type="del"
+                >
+                  删除
+                </span>
+
+                <span
+                  class="layui-btn layui-btn-xs jie-admin"
+                  type="set"
+                  field="stick"
+                  rank="1"
+                  v-if="page.isTop === '0'"
+                >
+                  置顶
+                </span>
+                <span
+                  class="layui-btn layui-btn-xs jie-admin"
+                  type="set"
+                  field="stick"
+                  rank="0"
+                  style="background-color:#ccc;"
+                  v-else
+                >
+                  取消置顶
+                </span>
+
+                <!-- <span class="layui-btn layui-btn-xs jie-admin" type="set" field="status" rank="1">加精</span>
+                <span
+                  class="layui-btn layui-btn-xs jie-admin"
+                  type="set"
+                  field="status"
+                  rank="0"
+                  style="background-color:#ccc;"
+                >取消加精</span>-->
+              </div>
+            </div>
 
             <span class="fly-list-nums">
               <a><i class="iconfont" title="回答">&#xe60c;</i> {{ page.answer }}</a>
               <i class="iconfont" title="人气">&#xe60b;</i> {{ page.reads }}
             </span>
           </div>
+
           <div class="detail-about">
             <a class="fly-avatar">
               <img class="userpic" :src="page.user ? page.user.pic : '/public/img/user.jpeg'" />
@@ -62,6 +105,7 @@
               >{{ page.isFav ? '取消收藏' : '收藏' }}</a
             >
           </div>
+
           <div class="detail-body photos" v-html="escapeHtmlStr"></div>
         </div>
 
@@ -83,7 +127,10 @@
                   <img :src="item.cuid.pic" />
                 </a>
                 <div class="fly-detail-user">
-                  <router-link :to="{name:'home',params:{uid:item.cuid._id}}" class="fly-link">
+                  <router-link
+                    :to="{ name: 'home', params: { uid: item.cuid._id } }"
+                    class="fly-link"
+                  >
                     <cite>{{ item.cuid.name }}</cite>
                     <i class="layui-badge fly-badge-vip" v-if="item.cuid.isVip !== '0'">
                       VIP{{ item.cuid.isVip }}</i
@@ -182,7 +229,7 @@
 <script>
 import { getPostDetail } from '@/api/content'
 import { getComments, addComments, editComment, bestComment, addHand } from '@/api/comments'
-import { userCollect,removeCollect } from '@/api/user'
+import { userCollect, removeCollect } from '@/api/user'
 import Panle from '@/components/Panle.vue'
 import Editor from '@/components/modules/editor'
 import HotList from '@/components/sidebar/HotList.vue'
@@ -393,6 +440,10 @@ export default {
   span {
     margin-right: 5px;
   }
+}
+.fly-admin-box {
+  margin-top: 15px;
+  margin-left: 0;
 }
 .btnpd {
   margin-top: -14px;
