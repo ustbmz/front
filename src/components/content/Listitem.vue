@@ -15,7 +15,9 @@
           <router-link :to="{name:'home',params:{uid:item.uid._id}}">
             <cite>{{ item.uid.name }}</cite>
             <!-- <i class="iconfont icon-renzheng" title="认证信息：XXX"></i> -->
-            <i class="layui-badge fly-badge-vip" v-if="item.uid.isVip == '1'"></i>
+            <i class="layui-badge fly-badge-vip" v-if="item.uid.isVip == '1'">
+              VIP{{item.uid.isVip}}
+            </i>
           </router-link>
           <span>{{ item.created | moment }}</span>
 
