@@ -29,7 +29,7 @@
             <div v-hasRole="'admin'">
               <div class="fly-admin-box" data-id="123">
                 <span
-                  v-hasPermission="['get', 'delete']"
+                  v-hasRole="['get', 'delete']"
                   class="layui-btn layui-btn-xs jie-admin"
                   type="del"
                 >
