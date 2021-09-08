@@ -8,7 +8,7 @@ WORKDIR /app
 COPY . .
 ## 构建项目  
 RUN npm cache clean --force
-RUN npm install
+RUN npm install --registry=https://registry.npm.taobao.org
 ## RUN yarn install --registry https://registry.npm.taobao.org
 COPY . .
 RUN npm run build
