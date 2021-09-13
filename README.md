@@ -1,28 +1,17 @@
-# front
+# 全栈技术—论坛实践项目 web端
 
-## 大前端论坛实践项目 web端
 
-预览地址 ： http://121.36.201.245:11006
 
-## Project setup
-```
-npm install
-```
+**使用 Vue + layui + webpack  + docker 自动化构建，部署，打包**
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+预览地址 ： http://www.ustbmz.com:11006
 
-### Compiles and minifies for production
-```
-npm run build
-```
 
-### Lints and fixes files
-```
-npm run lint
-```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+![image-20210913090946330](https://gitee.com/cnmz/images/raw/master/mdpic/image-20210913090946330.png)
+
+
+
+目前只修复bug, 基本功能已实现。
+
+后续升级为 vue3 + vite 技术栈
