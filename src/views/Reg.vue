@@ -142,33 +142,33 @@
 </template>
 
 <script>
-import { getCode } from "@/api/login";
-import { reg } from "@/api/login";
+import { getCode } from '@/api/login'
+import { reg } from '@/api/login'
 
 export default {
-  name: "reg",
+  name: 'reg',
   data() {
     return {
-      username: "",
-      name: "",
-      password: "",
-      repassword: "",
-      code: "",
-      svg: "",
-    };
+      username: '',
+      name: '',
+      password: '',
+      repassword: '',
+      code: '',
+      svg: ''
+    }
   },
   mounted() {
-    this._getCode();
+    this._getCode()
   },
   methods: {
     _getCode() {
-      let sid = localStorage.getItem("sid");
+      let sid = localStorage.getItem('sid')
       getCode(sid).then((res) => {
-        console.log(res);
+        console.log(res)
         if (res.code === 200) {
-          this.svg = res.data;
+          this.svg = res.data
         }
-      });
+      })
     },
     submit() {
       reg({
@@ -176,20 +176,20 @@ export default {
         name: this.name,
         password: this.password,
         code: this.code,
-        sid: this.$store.state.sid,
+        sid: this.$store.state.sid
       }).then((res) => {
         if (res.code === 200) {
-          this.$alert("已注册成功");
-          this.$router.push("/login");
+          this.$alert('已注册成功')
+          this.$router.push('/login')
         } else if (res.code === 400) {
-          this.$alert(res.msg);
+          this.$alert(res.msg)
         } else if (res.code === 401) {
-          this.$alert("图片验证码错误,请输入正确的验证码");
+          this.$alert('图片验证码错误,请输入正确的验证码')
         }
-      });
-    },
-  },
-};
+      })
+    }
+  }
+}
 </script>
 <style lang="scss" scoped>
 // 公用样式可以放在App.vue中

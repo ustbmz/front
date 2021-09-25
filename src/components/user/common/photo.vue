@@ -14,7 +14,7 @@
         @change="upload"
         style="display: none"
       />
-      <img :src="pic" />
+      <img class="img-userpic" :src="pic" />
       <span class="loading"></span>
     </div>
   </div>
@@ -66,4 +66,9 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.layui-tab-item img{
+  width: 160px;
+  height: 160px;
+}
+</style>
