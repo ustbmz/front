@@ -7,11 +7,10 @@ WORKDIR /app
 ## 复制项目文件至镜像目录
 COPY . .
 ## 构建项目  
-RUN npm cache clean --force
-RUN npm install --registry=https://registry.npm.taobao.org
+RUN yarn install
 ## RUN yarn install --registry https://registry.npm.taobao.org
 COPY . .
-RUN npm run build
+RUN yarn build
 
 ## 打包环节结束
 # production stage
