@@ -7,7 +7,7 @@ WORKDIR /app
 ## 复制项目文件至镜像目录
 COPY . .
 ## 构建项目  
-RUN yarn install -registry https://registry.npm.taobao.org
+RUN yarn install --registry https://registry.npm.taobao.org
 ## RUN yarn install --registry https://registry.npm.taobao.org
 COPY . .
 RUN yarn build
