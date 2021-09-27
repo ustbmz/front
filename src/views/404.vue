@@ -1,19 +1,19 @@
 <template>
   <body>
     <div class="layui-container flex">
-        <div class="title">404</div>
+      <img src="../assets/img/404.png" />
     </div>
   </body>
 </template>
 
 <script>
 export default {
-  name: "notFound",
-};
+  name: 'notFound'
+}
 </script>
 
 <style lang="scss" scoped>
-.flex{
+.flex {
   width: 100%;
   min-height: 400px;
   display: flex;
@@ -21,9 +21,8 @@ export default {
   flex-flow: column nowrap;
   justify-content: center;
 }
-
-.title {
-  font-size: 72px;
-  margin-bottom: 40px;
+img {
+  height: 50%;
+  width: 50%;
 }
 </style>
