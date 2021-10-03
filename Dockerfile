@@ -7,7 +7,8 @@ WORKDIR /app
 ## 复制项目文件至镜像目录
 COPY . .
 ## 构建项目  
-RUN npm install --registry https://registry.npm.taobao.org
+RUN npm i node-sass --sass_binary_site=https://npm.taobao.org/mirrors/node-sass/
+RUN npm install
 ## RUN yarn install --registry https://registry.npm.taobao.org
 COPY . .
 RUN npm run build
