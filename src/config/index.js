@@ -1,6 +1,6 @@
 export default {
   baseUrl: {
-    dev: 'http://121.36.201.245:12005',
-    pro: 'http://121.36.201.245:12005',
+    dev: 'http://localhost:3000',
+    pro: 'https://api.ustbmz.com',
   },
 }

@@ -4,7 +4,7 @@ class WebSocketClient {
   constructor(config = {}) {
     const defaultConfig = {
       url: '127.0.0.1',
-      port: '3001',
+      port: '12005',
       protocol: 'ws',
       timeInterval: 5 * 1000
     }
