@@ -2,9 +2,9 @@
 
 
 
-**使用 Vue + layui + webpack  + docker 自动化构建，部署，打包**
+**使用 Vue + layui + webpack  + jenkins 自动化构建，部署，打包**
 
-预览地址 ： http://www.ustbmz.com:11006
+预览地址 ： https://bbs.ustbmz.com
 
 
 
