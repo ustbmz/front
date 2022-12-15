@@ -8,9 +8,6 @@
 
 
 
-![image-20210913090946330](https://gitee.com/cnmz/images/raw/master/mdpic/image-20210913090946330.png)
-
-
 
 目前只修复bug, 基本功能已实现。
 
