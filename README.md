@@ -9,5 +9,3 @@
 
 
 ![image-20221217142011442](/assets/image-20221217142011442.png)
-
-test jenkins hooks
